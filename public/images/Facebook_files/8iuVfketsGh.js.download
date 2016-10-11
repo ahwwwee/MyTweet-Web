@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["NSgWv"]); }
+
+__d("XMessengerPlatformBotReviewWriteController",["XController"],(function a(b,c,d,e,f,g){c.__markCompiled&&c.__markCompiled();f.exports=c("XController").create("\/messages\/platform\/bot_review\/write\/",{page_id:{type:"FBID",required:true},rating:{type:"Int",required:true},review:{type:"String"}});}),null);

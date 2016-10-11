@@ -9,11 +9,13 @@ module.exports = [
   { method: 'GET', path: '/login', config: Accounts.login },
   { method: 'GET', path: '/logout', config: Accounts.logout },
   { method: 'POST', path: '/register', config: Accounts.register },
-  { method: 'POST', path: '/login', config: Accounts.authenticate },
+  { method: 'POST', path: '/authenticate', config: Accounts.authenticate },
+  { method: 'GET', path: '/editprofile', config: Accounts.editprofile },
+  { method: 'POST', path: '/edit', config: Accounts.edit },
 
   { method: 'GET', path: '/tweeter', config: Tweets.tweeter },
   { method: 'POST', path: '/tweet', config: Tweets.tweet },
-  { method: 'GET', path: '/tweetlist', config: Tweets.tweetlist },  
+  { method: 'GET', path: '/tweetlist', config: Tweets.tweetlist },
 
   {
     method: 'GET',

@@ -1,0 +1,18 @@
+<section class="ui raised segment">
+      <table class="ui celled table segment">
+        <thead>
+        <tr>
+          <th width="20%">Tweeter</th>
+          <th width="80%">Tweet</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each tweets}}
+          <tr>
+            <td> {{tweeter.firstName}} {{tweeter.lastName}} </td>
+            <td> {{content}} </td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+</section>

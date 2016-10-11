@@ -27,13 +27,14 @@ exports.login = {
 };
 
 exports.authenticate = {
+  auth: false,
   handler: function (request, reply) {
     const user = request.payload;
     User.findOne({ email: user.email }).then(foundUser => {
       if (foundUser && foundUser.password === user.password) {
         request.cookieAuth.set({
           loggedIn: true,
-          loggedInUser: user.email,
+          loggedInUser: foundUser,
         });
         reply.redirect('/tweeter');
       } else {
@@ -68,3 +69,16 @@ exports.register = {
 
 };
 
+exports.editprofile = {
+  handler: function (request, reply) {
+    reply.view('editprofile', { title: 'Edit who you are...' });
+  },
+};
+
+exports.edit = {
+  handler: function (request, reply) {
+    //currentUser needed.
+    //user.save().then({
+    reply.redirect('/tweeter');
+  },
+};
