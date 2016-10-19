@@ -1,18 +1,31 @@
-<section class="ui raised segment">
-      <table class="ui celled table segment">
-        <thead>
-        <tr>
-          <th width="20%">Tweeter</th>
-          <th width="80%">Tweet</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each tweets}}
-          <tr>
-            <td> {{tweeter.firstName}} {{tweeter.lastName}} </td>
-            <td> {{content}} </td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
-</section>
+
+<table class="ui very basic celled table">
+  <form action="/deleteAllTweets" method="GET">
+    <button class="ui red submit button">Delete All Tweets</button>
+  </form>
+  <div class="ui inverted divider"></div>
+  <div class="ui inverted divider"></div>
+  <thead>
+  <tr>
+    <th class="right aligned" width="20%">Tweeter</th>
+    <th class="center aligned" width="70%">Tweet</th>
+    <th width="10%">Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <form action="/deleteTweets" method="POST">
+    {{#each tweets}}
+      <tr>
+        <td class="right aligned"> {{tweeter.firstName}} {{tweeter.lastName}} </td>
+        <td maxlength="15"> {{content}}</td>
+        <td>
+          <input type="checkbox" name="delete" value={{_id}}>
+        </td>
+      </tr>
+    {{/each}}
+    <td></td>
+    <td></td>
+    <td><button class="ui blue submit button">Delete</button></td>
+  </form>
+  </tbody>
+</table>

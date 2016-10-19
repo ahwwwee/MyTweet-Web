@@ -8,11 +8,22 @@
           <h2>Go for it, {{tweeterer.firstName}}</h2>
         </div>
         <div class="field">
-          <textarea placeholder="Insert Tweet here" name="content" maxlength="140"></textarea>
+          <textarea id="message" placeholder="Insert Tweet here" name="content" maxlength="140" onkeydown="textCounter(this, 'counter', 140);"></textarea>
         </div>
         <button type="submit" class="ui olive submit button">Post</button>
         <div class="ui error message"></div>
+        <input disabled value="140" id="counter">
       </form>
+      <script>
+        function textCounter(field, count, max) {
+          var count = document.getElementById(count);
+          if (field.value.length > max) {
+            field.value = field.value.substring(0, max);
+          } else {
+            count.value = max - field.value.length;
+          }
+        }
+        </script>
     </div>
   </section>
 </section>

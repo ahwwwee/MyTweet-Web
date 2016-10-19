@@ -1,0 +1,42 @@
+<div class="ui grid">
+  <div class="ui three wide column">
+    <form action="/tweetlist" method="POST">
+      <div class="ui fluid dropdown">
+        <input  name="userId" type="hidden">
+        <div class="text">List of Users</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          {{#each users}}
+            <div class="item" data-value={{_id}}>{{email}}</div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div class="ui one wide column">
+      <button class="ui blue submit button">Filter</button>
+    </form>
+  </div>
+  <div class="ui two wide column">
+    <form action="/tweetlist" method="GET">
+      <button class="ui violet submit button">All Tweets</button>
+    </form>
+  </div>
+</div>
+<div class="ui inverted divider"></div>
+<div class="ui inverted divider"></div>
+<table class="ui fluid very basic celled table">
+  <thead>
+  <tr>
+    <th class="right aligned" width="20%"><b>Tweeter</b></th>
+    <th class="center aligned" width="80%"><b>Tweet</b></th>
+  </tr>
+  </thead>
+  <tbody>
+  {{#each tweets}}
+    <tr>
+      <td class="right aligned"> {{tweeter.firstName}} {{tweeter.lastName}} </td>
+      <td> {{content}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>

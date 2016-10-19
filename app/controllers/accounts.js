@@ -77,8 +77,35 @@ exports.editprofile = {
 
 exports.edit = {
   handler: function (request, reply) {
-    //currentUser needed.
-    //user.save().then({
+    const currentUser = request.auth.credentials.loggedInUser;
+    let data = request.payload;
+    User.findOne({ _id: currentUser._id }).then(edit => {
+      if (data.firstName !== '') {
+        edit.firstName = data.firstName;
+      }else {
+        edit.firstName = edit.firstName;
+      }
+
+      if (data.lastName !== '') {
+        edit.lastName = data.lastName;
+      }else {
+        edit.lastName = edit.email;
+      }
+
+      if (data.email !== '') {
+        edit.email = data.email;
+      }else {
+        edit.email = edit.email;
+      }
+
+      if (data.password !== '') {
+        edit.password = data.password;
+      }else {
+        edit.password = edit.password;
+      }
+
+      edit.save();
+    });
     reply.redirect('/tweeter');
   },
 };
