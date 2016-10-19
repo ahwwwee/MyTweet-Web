@@ -17,7 +17,6 @@ module.exports = [
   { method: 'POST', path: '/tweet', config: Tweets.tweet },
   { method: 'GET', path: '/tweetlist', config: Tweets.tweetlist },
   { method: 'POST', path: '/tweetlist', config: Tweets.tweetlist },
-  { method: 'GET', path: '/yourTweets', config: Tweets.yourtweets },
   { method: 'POST', path: '/deleteTweets', config: Tweets.deletetweets },
   { method: 'GET', path: '/deleteAllTweets', config: Tweets.deletealltweets },
 

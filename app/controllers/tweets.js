@@ -7,7 +7,20 @@ exports.tweeter = {
   handler: function (request, reply) {
     let data = request.payload;
     var tweeter = request.auth.credentials.loggedInUser;
-    reply.view('tweeter', { title: 'Tweet Tweet', tweeterer: tweeter });
+    Tweet.find({}).populate('tweeter').then(allTweets => {
+      let myTweets = [];
+      for (let i = 0; i < allTweets.length; i++) {
+        if (allTweets[i].tweeter._id.equals(tweeter._id)) {
+          myTweets.push(allTweets[i]);
+        }
+      }
+
+      reply.view('tweeter', {
+        title: 'Tweet Tweet',
+        tweets: myTweets,
+        tweeterer: tweeter,
+      });
+    });
   },
 };
 
@@ -21,9 +34,9 @@ exports.tweet = {
       tweet.tweeter = user._id;
       return tweet.save();
     }).then(newTweet => {
-      reply.redirect('/yourTweets');
-    }).catch(err => {
       reply.redirect('/tweeter');
+    }).catch(err => {
+      reply.redirect('/tweetlist');
     });
   },
 };
@@ -59,26 +72,6 @@ exports.tweetlist = {
   },
 };
 
-exports.yourtweets = {
-  handler: function (request, reply) {
-    var tweeterer = request.auth.credentials.loggedInUser;
-    Tweet.find({}).populate('tweeter').then(allTweets => {
-      let myTweets = [];
-      for (let i = 0; i < allTweets.length; i++) {
-        if (allTweets[i].tweeter._id == tweeterer._id) {
-          myTweets.push(allTweets[i]);
-        }
-      }
-
-      reply.view('yourtweets', {
-        title: 'Tweet Tweet Tweet tweet?',
-        tweets: myTweets,
-        tweeter: tweeterer,
-      });
-    });
-  },
-};
-
 exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload;
@@ -95,7 +88,7 @@ exports.deletetweets = {
       };
     };
 
-    reply.redirect('/yourTweets');
+    reply.redirect('/tweeter');
   },
 };
 
@@ -107,6 +100,6 @@ exports.deletealltweets = {
       }
     });
 
-    reply.redirect('/yourTweets');
+    reply.redirect('/tweeter');
   },
 };
