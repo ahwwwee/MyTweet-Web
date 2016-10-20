@@ -5,6 +5,7 @@ const User = require('../models/user');
 exports.welcome = {
   auth: false,
   handler: function (request, reply) {
+    request.cookieAuth.clear();
     reply.view('welcome', { title: 'Welcome to myTweet' });
   },
 
