@@ -139,8 +139,6 @@ exports.deletealltweets = {
         for (let i = 0; i < allUsers.length; i++) {
           if (allUsers[i]._id.equals(user._id)) {
             for (let x = 0; x < allTweets.length; x++) {
-              console.log(allTweets[x].tweeter._id);
-              console.log(user._id);
               if (allTweets[x].tweeter._id.equals(user._id)) {
                 let tweet = allTweets[x];
                 tweet.remove();
