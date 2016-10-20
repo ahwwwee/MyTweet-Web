@@ -12,6 +12,7 @@ module.exports = [
   { method: 'POST', path: '/authenticate', config: Accounts.authenticate },
   { method: 'GET', path: '/editprofile', config: Accounts.editprofile },
   { method: 'POST', path: '/edit', config: Accounts.edit },
+  { method: 'GET', path: '/admin', config: Tweets.admin },
 
   { method: 'GET', path: '/tweeter', config: Tweets.tweeter },
   { method: 'POST', path: '/tweet', config: Tweets.tweet },

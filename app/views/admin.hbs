@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+{{> adminmenu }}
+<body>
+  <section class="ui raised segment">
+    <div class="ui grid">
+      <div class="ui three wide column">
+        <h3 class="ui header">Welcome Admin</h3>
+        <p>Want to delete a User?</p>
+        <div class="ui inverted divider"></div>
+        <div class="ui fluid dropdown">
+          <input  name="userId" type="hidden">
+          <div class="text">List of Users</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {{#each users}}
+              <div class="item" data-value={{_id}}>{{email}}</div>
+            {{/each}}
+          </div>
+        </div>
+        <div class="ui divider"></div>
+        <button class="ui fluid red submit button">Delete user</button>
+      </div>
+      <div class="ui thirteen wide column">
+        {{>tweetlist}}
+      </div>
+    </div>
+  </section>
+</body>
+</html>

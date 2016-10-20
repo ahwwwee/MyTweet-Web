@@ -30,21 +30,32 @@ exports.authenticate = {
   auth: false,
   handler: function (request, reply) {
     const user = request.payload;
+    const admin = 'admin@myTweet.com';
+    const password = 'secret';
     User.findOne({ email: user.email }).then(foundUser => {
-      if (foundUser && foundUser.password === user.password) {
+      if (password === user.password && user.email === admin) {
         request.cookieAuth.set({
           loggedIn: true,
-          loggedInUser: foundUser,
+          loggedInUser: admin,
         });
-        reply.redirect('/tweeter');
-      } else {
-        reply.redirect('/signup');
+        reply.redirect('/admin');
+      } else { User.findOne({ email: user.email }).then(foundUser => {
+          if (foundUser && foundUser.password === user.password) {
+            request.cookieAuth.set({
+              loggedIn: true,
+              loggedInUser: foundUser,
+            });
+            reply.redirect('/tweeter');
+          } else {
+            reply.redirect('/signup');
+          }
+        });
       }
+
     }).catch(err => {
       reply.redirect('/');
     });
   },
-
 };
 
 exports.logout = {

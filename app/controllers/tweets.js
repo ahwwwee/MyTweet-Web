@@ -24,6 +24,23 @@ exports.tweeter = {
   },
 };
 
+exports.admin = {
+  handler: function (request, reply) {
+    var admin = request.auth.credentials.loggedInUser;
+    User.find({}).then(allUsers => {
+      Tweet.find({}).populate('tweeter').then(allTweets => {
+        reply.view('admin', {
+          title: 'Admin Tweet Tweet',
+          users: allUsers,
+          tweets: allTweets,
+        });
+      });
+    }).catch(err => {
+      reply.redirect('/');
+    });
+  },
+};
+
 exports.tweet = {
 
   handler: function (request, reply) {
@@ -75,31 +92,67 @@ exports.tweetlist = {
 exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload;
-    if (data !== undefined) {
+    const user = request.auth.credentials.loggedInUser;
+    if (data.length != undefined) {
       if (data.delete != []) {
         Tweet.findOneAndRemove({ _id: data.delete }, function (err) {
         });
-      };
+      }
 
       let tweetIDs = data.delete;
       for (let i = 0; i < tweetIDs.length; i++) {
         Tweet.findOneAndRemove({ _id: tweetIDs[i] }, function (err) {
         });
-      };
-    };
+      }
+    }
 
-    reply.redirect('/tweeter');
+    User.find({}).then(allUsers => {
+      for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i]._id.equals(user._id)) {
+          reply.redirect('/tweeter');
+          break;
+        }
+      }
+
+      reply.redirect('/admin');
+      console.log('woooo2');
+    });
   },
 };
 
 exports.deletealltweets = {
   handler: function (request, reply) {
-    Tweet.remove(function (err) {
-      if (err) {
-        reply.redirect('/');
-      }
-    });
+    const user = request.auth.credentials.loggedInUser;
+    const admin = 'admin@myTweet.com';
+    if (admin == user) {
+      Tweet.remove(function (err) {
+        if (err) {
+          reply.redirect('/');
+        }
+      });
 
-    reply.redirect('/tweeter');
+      reply.redirect('/admin');
+    }
+
+    Tweet.find({}).populate('tweeter').then(allTweets=> {
+      User.find({}).then(allUsers => {
+        for (let i = 0; i < allUsers.length; i++) {
+          if (allUsers[i]._id.equals(user._id)) {
+            for (let x = 0; x < allTweets.length; x++) {
+              console.log(allTweets[x].tweeter._id);
+              console.log(user._id);
+              if (allTweets[x].tweeter._id.equals(user._id)) {
+                let tweet = allTweets[x];
+                tweet.remove();
+              }
+            }
+
+            reply.redirect('/tweeter');
+            break;
+          }
+        }
+      });
+    });
   },
 };
+
