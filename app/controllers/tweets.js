@@ -2,7 +2,10 @@
 
 const Tweet = require('../models/Tweet');
 const User = require('../models/user');
+const Joi = require('joi');
 
+
+/*method to render the tweeter page*/
 exports.tweeter = {
   handler: function (request, reply) {
     let data = request.payload;
@@ -24,6 +27,7 @@ exports.tweeter = {
   },
 };
 
+/*method to render the admin page*/
 exports.admin = {
   handler: function (request, reply) {
     var admin = request.auth.credentials.loggedInUser;
@@ -41,6 +45,7 @@ exports.admin = {
   },
 };
 
+/*method to render the admin sign up page*/
 exports.adminsignup = {
   handler: function (request, reply) {
     reply.view('adminsignup', {
@@ -49,23 +54,7 @@ exports.adminsignup = {
   },
 };
 
-exports.tweet = {
-
-  handler: function (request, reply) {
-    var userEmail = request.auth.credentials.loggedInUser;
-    User.findOne({ email: userEmail.email }).then(user => {
-      let data = request.payload;
-      const tweet = new Tweet(data);
-      tweet.tweeter = user._id;
-      return tweet.save();
-    }).then(newTweet => {
-      reply.redirect('/tweeter');
-    }).catch(err => {
-      reply.redirect('/tweetlist');
-    });
-  },
-};
-
+/*method to render the tweetlist, global timeline*/
 exports.tweetlist = {
   handler: function (request, reply) {
     let data = request.payload;
@@ -97,6 +86,49 @@ exports.tweetlist = {
   },
 };
 
+/*method to render the editprofile page*/
+exports.editprofile = {
+  handler: function (request, reply) {
+    reply.view('editprofile', { title: 'Edit who you are...' });
+  },
+};
+
+/*method to Tweet, adds to the database*/
+exports.tweet = {
+  validate: {
+
+    payload: {
+      content: Joi.string().required(),
+    },
+
+    options: {
+      abortEarly: false,
+    },
+
+    failAction: function (request, reply, source, error) {
+      reply.view('tweeter', {
+        title: 'Tweet error',
+        errors: error.data.details,
+      }).code(400);
+    },
+
+  },
+  handler: function (request, reply) {
+    var userEmail = request.auth.credentials.loggedInUser;
+    User.findOne({ email: userEmail.email }).then(user => {
+      let data = request.payload;
+      const tweet = new Tweet(data);
+      tweet.tweeter = user._id;
+      return tweet.save();
+    }).then(newTweet => {
+      reply.redirect('/tweeter');
+    }).catch(err => {
+      reply.redirect('/tweetlist');
+    });
+  },
+};
+
+/*method to delete a specific or list of tweets, but not all*/
 exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload;
@@ -127,6 +159,10 @@ exports.deletetweets = {
   },
 };
 
+/*method to delete all tweets
+if done by admin, all are deleted.
+if done by user only users tweets are deleted.
+ */
 exports.deletealltweets = {
   handler: function (request, reply) {
     const user = request.auth.credentials.loggedInUser;
@@ -161,6 +197,9 @@ exports.deletealltweets = {
   },
 };
 
+/*method to delete a user
+All users tweets are deleted before the user is deleted
+ */
 exports.deleteuser = {
   handler: function (request, reply) {
     let data = request.payload;

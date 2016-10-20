@@ -11,9 +11,9 @@ module.exports = [
   { method: 'POST', path: '/register', config: Accounts.register },
   { method: 'POST', path: '/adminregister', config: Accounts.adminregister },
   { method: 'POST', path: '/authenticate', config: Accounts.authenticate },
-  { method: 'GET', path: '/editprofile', config: Accounts.editprofile },
   { method: 'POST', path: '/edit', config: Accounts.edit },
 
+  { method: 'GET', path: '/editprofile', config: Tweets.editprofile },
   { method: 'GET', path: '/admin', config: Tweets.admin },
   { method: 'GET', path: '/adminsignup', config: Tweets.adminsignup },
   { method: 'GET', path: '/tweeter', config: Tweets.tweeter },
