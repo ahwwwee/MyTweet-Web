@@ -2,12 +2,13 @@
 <html>
 {{> adminmenu }}
 <body>
-  <section class="ui raised segment">
-    <div class="ui grid">
-      <div class="ui three wide column">
-        <h3 class="ui header">Welcome Admin</h3>
-        <p>Want to delete a User?</p>
-        <div class="ui inverted divider"></div>
+<section class="ui raised segment">
+  <div class="ui grid">
+    <div class="ui three wide column">
+      <h2 class="ui header">Welcome Admin</h2>
+      <p>Want to delete a User?</p>
+      <div class="ui inverted divider"></div>
+      <form action="/deleteuser" method="POST">
         <div class="ui fluid dropdown">
           <input  name="userId" type="hidden">
           <div class="text">List of Users</div>
@@ -20,11 +21,17 @@
         </div>
         <div class="ui divider"></div>
         <button class="ui fluid red submit button">Delete user</button>
-      </div>
-      <div class="ui thirteen wide column">
-        {{>tweetlist}}
-      </div>
+      </form>
+      <div class="ui inverted divider"></div>
+      </form>
+      <form action="/adminsignup" method="GET">
+        <button class="ui fluid violet submit button">Create user</button>
+      </form>
     </div>
-  </section>
+    <div class="ui thirteen wide column">
+      {{>tweetlist}}
+    </div>
+  </div>
+</section>
 </body>
 </html>

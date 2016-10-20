@@ -70,7 +70,6 @@ exports.register = {
   auth: false,
   handler: function (request, reply) {
     const user = new User(request.payload);
-
     user.save().then(newUser => {
       reply.redirect('/login');
     }).catch(err => {
@@ -79,6 +78,17 @@ exports.register = {
   },
 
 };
+
+exports.adminregister = {
+  handler: function (request, reply) {
+    const user = new User(request.payload);
+    user.save().then(newUser => {
+      reply.redirect('/admin');
+    }).catch(err => {
+      reply.redirect('/');
+    });
+  }
+}
 
 exports.editprofile = {
   handler: function (request, reply) {

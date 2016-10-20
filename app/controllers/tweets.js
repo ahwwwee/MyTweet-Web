@@ -41,6 +41,14 @@ exports.admin = {
   },
 };
 
+exports.adminsignup = {
+  handler: function (request, reply) {
+    reply.view('adminsignup', {
+      title: 'Sign up a User Tweet',
+    });
+  },
+};
+
 exports.tweet = {
 
   handler: function (request, reply) {
@@ -93,16 +101,16 @@ exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload;
     const user = request.auth.credentials.loggedInUser;
-    if (data.length != undefined) {
-      if (data.delete != []) {
+    if (data.delete) {
+      if (!Array.isArray(data.delete)) {
         Tweet.findOneAndRemove({ _id: data.delete }, function (err) {
         });
-      }
-
-      let tweetIDs = data.delete;
-      for (let i = 0; i < tweetIDs.length; i++) {
-        Tweet.findOneAndRemove({ _id: tweetIDs[i] }, function (err) {
-        });
+      } else {
+        let tweetIDs = data.delete;
+        for (let i = 0; i < tweetIDs.length; i++) {
+          Tweet.findOneAndRemove({ _id: tweetIDs[i] }, function (err) {
+          });
+        }
       }
     }
 
@@ -115,7 +123,6 @@ exports.deletetweets = {
       }
 
       reply.redirect('/admin');
-      console.log('woooo2');
     });
   },
 };
@@ -151,6 +158,35 @@ exports.deletealltweets = {
         }
       });
     });
+  },
+};
+
+exports.deleteuser = {
+  handler: function (request, reply) {
+    let data = request.payload;
+    let usersTweets = [];
+    if (data.userId) {
+      User.findOne({ _id: data.userId }).then(user => {
+        Tweet.find({}).populate('tweeter').then(allTweets => {
+          for (let i = 0; i < allTweets.length; i++) {
+            if (allTweets[i].tweeter._id.equals(user._id)) {
+              usersTweets.push(allTweets[i]);
+            }
+          }
+
+          for (let i = 0; i < usersTweets.length; i++) {
+            Tweet.findOneAndRemove({ _id: usersTweets[i]._id }, function (err) {
+            }).then(tweet => {
+              console.log(tweet._id);
+            });
+          }
+
+          return user.remove();
+        });
+      });
+    }
+
+    reply.redirect('/admin');
   },
 };
 

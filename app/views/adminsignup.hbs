@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-{{> authmenu }}
+{{> adminmenu }}
 <body>
-  <section class="ui raised segment">
+
+<section class="ui container">
+  <section class="ui segment">
     <div class="ui grid">
       <div class="ui ten wide column">
         <div class="ui fluid form segment">
-          <form action="/edit" method="POST">
-            <h3 class="ui header">Edit Tweeter</h3>
+          <form action="/adminregister" method="POST">
+            <h3 class="ui header">Register</h3>
             {{>createuser}}
           </form>
         </div>
@@ -17,4 +19,6 @@
       </aside>
     </div>
   </section>
+</section>
 </body>
+</html>
