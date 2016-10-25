@@ -7,10 +7,6 @@ const userSchema = mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
-  tweets: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Tweet',
-  },
 });
 
 const User = mongoose.model('User', userSchema);

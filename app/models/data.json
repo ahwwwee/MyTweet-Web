@@ -1,0 +1,71 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    "marge": {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret"
+    },
+    "bart": {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  },
+  "tweets": {
+    "_model": "Tweet",
+    "one": {
+      "content": "Tweet tweet tweet",
+      "tweeter": "->users.homer"
+    },
+    "two": {
+      "content": "Tweet tweet tweet tweet",
+      "tweeter": "->users.marge"
+    },
+    "three": {
+      "content": "Tweet tweet tweet tweet tweet",
+      "tweeter": "->users.homer"
+    },
+    "four": {
+      "content": "Tweet tweet tweet tweet tweet tweet",
+      "tweeter": "->users.bart"
+    },
+    "five": {
+      "content": "Tweet tweet tweet tweet",
+      "tweeter": "->users.marge"
+    },
+    "six": {
+      "content": "Tweet tweet tweet tweet tweet tweet tweet tweet tweet",
+      "tweeter": "->users.homer"
+    },
+    "seven": {
+      "content": "Twat",
+      "tweeter": "->users.bart"
+    },
+    "eight": {
+      "content": "tweet tweet tweet",
+      "tweeter": "->users.homer"
+    },
+    "nine": {
+      "content": "Tweet tweetweet tweet tweet",
+      "tweeter": "->users.bart"
+    },
+    "ten": {
+      "content": "Twetweet tweet tweet",
+      "tweeter": "->users.marge"
+    },
+    "eleven": {
+      "content": "Tweet tweet twtweet tweet tweett",
+      "tweeter": "->users.homer"
+    }
+
+  }
+}

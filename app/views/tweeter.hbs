@@ -1,12 +1,19 @@
 {{> authmenu }}
 <section class="ui container">
   <section class="ui segment">
+    <div class="ui centered card">
+      <div class="image">
+        <img src="/images/avatar2/large/elyse.png">
+      </div>
+      <div class="content">
+        <a class="header">{{tweeterer.firstName}} {{tweeterer.lastName}}</a>
+      </div>
+    </div>
     <div class="ui grid">
       <div class="ui six wide column">
         <h2>Here's where you tweet...</h2>
       <form class="ui form segment" action="/tweet" method="POST">
         <div class="ui heading">
-          <h2>Go for it, {{tweeterer.firstName}}</h2>
           <input disabled value="140" id="counter">
         </div>
         <div class="field">
