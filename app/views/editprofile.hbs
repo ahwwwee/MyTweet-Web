@@ -5,19 +5,34 @@
   <section class="ui raised segment">
     <div class="ui grid">
       <div class="ui ten wide column">
-        <div class="ui fluid form segment">
-          <form action="/edit" method="POST">
-            <h3 class="ui header">Edit Tweeter</h3>
-            {{>createuser}}
-          </form>
-        </div>
+        <div class="ui divider"></div>
+        <form class="ui form" action="/edit" method="POST">
+          <h3 class="ui header">Edit Tweeter</h3>
+          {{>createuser}}
+        </form>
+        <div class="ui divider"></div>
       </div>
-      <aside class="ui five wide column">
+      <div class="ui five wide column">
+        <div class="ui divider"></div>
+        <h3 class="ui header">Upload an Image</h3>
+        <form class="ui form" enctype="multipart/form-data" action="/photoUpload" method="POST">
+          <input class="ui input" type="file" name="picture">
+          <p></p>
+          <button class="ui violet submit button">Upload</button>
+        </form>
+        <div class="ui divider"></div>
+      </div>
+    </div>
+    <div class="ui centered grid">
+        <aside>
+          <img src="images/tweet.png" class="ui medium image">
+        </aside>
+      <aside>
         <img src="images/tweet.png" class="ui medium image">
       </aside>
-    </div>
-    <div class="ui grid">
-      <h3 class="ui header">Upload an Image</h3>
+      <aside>
+        <img src="images/tweet.png" class="ui medium image">
+      </aside>
     </div>
   </section>
 </body>

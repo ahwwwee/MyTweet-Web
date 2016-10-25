@@ -12,6 +12,8 @@ module.exports = [
   { method: 'POST', path: '/adminregister', config: Accounts.adminregister },
   { method: 'POST', path: '/authenticate', config: Accounts.authenticate },
   { method: 'POST', path: '/edit', config: Accounts.edit },
+  { method: 'POST', path: '/photoUpload', config: Accounts.photoUpload },
+  { method: 'GET', path: '/getPicture', config: Accounts.getPicture },
 
   { method: 'GET', path: '/editprofile', config: Tweets.editprofile },
   { method: 'GET', path: '/admin', config: Tweets.admin },

@@ -208,3 +208,32 @@ exports.edit = {
     reply.redirect('/tweeter');
   },
 };
+
+exports.photoUpload = {
+
+    payload: {
+      parse: true,
+      output: 'data',
+    },
+
+    handler: function (request, reply) {
+      const user = request.auth.credentials.loggedInUser;
+      const data = request.payload.picture;
+      User.findOne({ _id: user._id }).then(user1 => {
+        user1.picture.data = data;
+        user1.picture.contentType = String;
+        user1.save();
+      }).then((err, user) => {
+        reply.redirect('/tweeter');
+      });
+    },
+  };
+
+exports.getPicture = {
+  handler: (request, reply) => {
+    const user = request.auth.credentials.loggedInUser;
+    User.findOne({ _id: user._id }).exec((err, user) => {
+      reply(user.picture.data).type('image');
+    });
+  },
+};
