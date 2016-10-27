@@ -229,6 +229,25 @@ exports.photoUpload = {
     },
   };
 
+exports.getPublicPicture = {
+  handler: (request, reply) => {
+    const data = payload.params;
+    console.log('public pictures')
+    if (!Array.isArray(data)) {
+      User.findOne({ _id: data._id }).exec((err, user) => {
+        reply(user.picture.data).type('image');
+      });
+    } else {
+      let all = data;
+      for (let i; i < all.length; i++) {
+        User.findOne({ _id: all[i] }).exec((err, user) => {
+          reply(user.picture.data).type('image');
+        });
+      }
+    }
+  },
+};
+
 exports.getPicture = {
   handler: (request, reply) => {
     const user = request.auth.credentials.loggedInUser;

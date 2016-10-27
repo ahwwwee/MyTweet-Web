@@ -9,8 +9,8 @@
         <img src="images/tweet-tweet.png" class="ui medium image">
       </aside>
       <div class="ui ten wide column fluid form">
-        <div class="ui segment">
-          <form action="/authenticate" method="POST">
+        <div class="ui divider"></div>
+        <form class="ui form" action="/authenticate" method="POST">
             <h3 class="ui header">Log-in</h3>
             <div class="field">
               <label>Email</label> <input placeholder="Email" type="text"
@@ -22,7 +22,7 @@
             <button class="ui blue submit button">Login</button>
           </form>
           {{> formerror }}
-        </div>
+        <div class="ui divider"></div>
       </div>
     </div>
   </section>

@@ -27,6 +27,7 @@
 <table class="ui fluid very basic celled table">
   <thead>
   <tr>
+    <th></th>
     <th class="right aligned" width="20%"><b>Tweeter</b></th>
     <th class="center aligned" width="80%"><b>Tweet</b></th>
   </tr>
@@ -34,6 +35,7 @@
   <tbody>
   {{#each tweets}}
     <tr>
+      <td><img src="/getPublicPicture/{{{_id}}}"></td>
       <td class="right aligned"> {{tweeter.firstName}} {{tweeter.lastName}} </td>
       <td> {{content}}</td>
     </tr>

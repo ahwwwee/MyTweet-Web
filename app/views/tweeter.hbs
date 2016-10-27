@@ -11,8 +11,9 @@
     </div>
     <div class="ui grid">
       <div class="ui six wide column">
+        <div class="ui divider"></div>
         <h2>Here's where you tweet...</h2>
-      <form class="ui form segment" action="/tweet" method="POST">
+      <form class="ui form" action="/tweet" method="POST">
         <div class="ui heading">
           <input disabled value="140" id="counter">
         </div>
@@ -23,6 +24,7 @@
         <div class="ui error message"></div>
       </form>
         {{>formerror}}
+        <div class="ui divider"></div>
       </div>
     <div class="ui ten wide column">
         <h2>Here's your tweets</h2>

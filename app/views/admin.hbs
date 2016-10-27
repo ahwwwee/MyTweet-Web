@@ -8,14 +8,14 @@
       <h2 class="ui header">Welcome Admin</h2>
       <p>Want to delete a User?</p>
       <div class="ui inverted divider"></div>
-      <form action="/deleteuser" method="POST">
-        <div class="ui fluid dropdown">
-          <input  name="userId" type="hidden">
+      <form class="ui fluid form users">
+        <div id="userDD" class="ui fluid selection dropdown">
+          <input name="userId" type="hidden">
           <div class="text">List of Users</div>
           <i class="dropdown icon"></i>
           <div class="menu">
             {{#each users}}
-              <div class="item" data-value={{_id}}>{{email}}</div>
+              <div class="item user" data-value={{_id}}>{{email}}</div>
             {{/each}}
           </div>
         </div>
@@ -32,6 +32,8 @@
       {{>tweetlist}}
     </div>
   </div>
+  <script src="javascript/AdminTimeline.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascript/AdminAjax.js" type="text/javascript" charset="utf-8"></script>
 </section>
 </body>
 </html>
