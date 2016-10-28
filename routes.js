@@ -26,7 +26,6 @@ module.exports = [
   { method: 'POST', path: '/deleteTweets', config: Tweets.deletetweets },
   { method: 'GET', path: '/deleteAllTweets', config: Tweets.deletealltweets },
   { method: 'POST', path: '/deleteuser', config: Tweets.deleteuser },
-  { method: 'GET', path: '/getTweets', config: Tweets.getTweets },
 
   {
     method: 'GET',

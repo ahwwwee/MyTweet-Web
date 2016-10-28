@@ -227,39 +227,3 @@ exports.deleteuser = {
     reply.redirect('/admin');
   },
 };
-
-/*exports.deleteuser = {
-  handler: function (request, reply) {
-    let data = request.payload;
-    let usersTweets = [];
-    if (data.userId) {
-      User.findOne({ _id: data.userId }).then(user => {
-        Tweet.find({}).populate('tweeter').then(allTweets => {
-          for (let i = 0; i < allTweets.length; i++) {
-            if (allTweets[i].tweeter._id.equals(user._id)) {
-              usersTweets.push(allTweets[i]);
-            }
-          }
-
-          for (let i = 0; i < usersTweets.length; i++) {
-            Tweet.findOneAndRemove({ _id: usersTweets[i]._id }, function (err) {
-            }).then(tweet => {
-              console.log(tweet._id);
-            });
-          }
-
-          return user.remove();
-        });
-      });
-    }
-
-    reply.redirect('/admin');
-  },
-};*/
-
-exports.getTweets = {
-  handler: function (request, reply) {
-    Tweet.find({}).then(allTweets => {
-      });
-  },
-};
