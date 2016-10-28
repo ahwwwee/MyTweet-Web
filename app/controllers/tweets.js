@@ -17,13 +17,13 @@ exports.tweeter = {
           myTweets.push(allTweets[i]);
         }
       }
-    })
       reply.view('tweeter', {
         title: 'Tweet Tweet',
         tweets: myTweets,
         tweeterer: tweeter,
       });
     });
+    })
   },
 };
 
