@@ -231,28 +231,26 @@ exports.photoUpload = {
 
 exports.getPublicPicture = {
   handler: (request, reply) => {
-    const data = payload.params;
-    console.log('public pictures')
-    if (!Array.isArray(data)) {
-      User.findOne({ _id: data._id }).exec((err, user) => {
-        reply(user.picture.data).type('image');
-      });
-    } else {
-      let all = data;
-      for (let i; i < all.length; i++) {
-        User.findOne({ _id: all[i] }).exec((err, user) => {
+      const data = request.params;
+      console.log(data);
+      User.findOne({ _id: data.id }).exec((err, user) => {
+        console.log(user);
+        if (user.picture != null || user != undefined) {
           reply(user.picture.data).type('image');
-        });
-      }
-    }
-  },
+        }
+      });
+    },
 };
 
 exports.getPicture = {
   handler: (request, reply) => {
     const user = request.auth.credentials.loggedInUser;
+    console.log(user._id);
     User.findOne({ _id: user._id }).exec((err, user) => {
-      reply(user.picture.data).type('image');
+      console.log(user);
+      if (user != null) {
+        reply(user.picture.data).type('image');
+      }
     });
   },
 };

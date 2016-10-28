@@ -257,13 +257,6 @@ exports.deleteuser = {
   },
 };*/
 
-exports.getUsers = {
-  handler: function (request, reply) {
-    User.find({}).then(allUsers => {
-    });
-  },
-};
-
 exports.getTweets = {
   handler: function (request, reply) {
     Tweet.find({}).then(allTweets => {
