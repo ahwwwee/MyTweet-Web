@@ -14,7 +14,7 @@ $('.ui.form.users')
         },
       },
 
-      onSuccess: function (event, fields) {
+      onSuccess: function (event) {
         deleteUser();
         event.preventDefault();
       },

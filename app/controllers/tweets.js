@@ -215,10 +215,9 @@ exports.deleteuser = {
           for (let i = 0; i < usersTweets.length; i++) {
             Tweet.findOneAndRemove({ _id: usersTweets[i]._id }, function (err) {
             }).then(tweet => {
-              console.log(tweet._id);
+              return tweet;
             });
           }
-
           return user.remove();
         });
       });

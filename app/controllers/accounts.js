@@ -221,7 +221,7 @@ exports.photoUpload = {
       const data = request.payload.picture;
       User.findOne({ _id: user }).then(user1 => {
         user1.picture.data = data;
-          user1.picture.contentType = String;
+        user1.picture.contentType = String;
         user1.save();
       }).then((err, user) => {
         reply.redirect('/tweeter');
