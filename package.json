@@ -13,6 +13,7 @@
     "handlebars": "^4.0.5",
     "hapi": "^15.1.1",
     "hapi-auth-cookie": "^6.1.1",
+    "hapi-require-https": "^2.0.9",
     "inert": "^4.0.2",
     "joi": "^9.2.0",
     "mongoose": "^4.6.2",

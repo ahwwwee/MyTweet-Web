@@ -7,7 +7,7 @@ server.connection({ port: process.env.PORT || 4000 });
 
 require('./app/models/db');
 
-server.register([require('inert'), require('vision'), require('hapi-auth-cookie')], err => {
+server.register([require('inert'), require('vision'), require('hapi-auth-cookie'), require('hapi-require-https')], err => {
 
   if (err) {
     throw err;
@@ -36,11 +36,6 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
   server.auth.default({
     strategy: 'standard',
   });
-
-  server.register({
-    register: require('hapi-require-https'),
-    options: {}
-  })
 
   server.route(require('./routes'));
   server.start((err) => {
