@@ -77,7 +77,7 @@ exports.authenticate = {
           if (foundUser && foundUser.password === user.password) {
             request.cookieAuth.set({
               loggedIn: true,
-              loggedInUser: foundUser,
+              loggedInUser: foundUser.email,
             });
             reply.redirect('/tweetlist');
           } else {
