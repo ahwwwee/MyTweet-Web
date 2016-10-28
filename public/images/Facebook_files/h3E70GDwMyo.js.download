@@ -1,3 +1,0 @@
-if (self.CavalryLogger) { CavalryLogger.start_js(["aHHFn"]); }
-
-__d("XMessengerPlatformBotReviewReadController",["XController"],(function a(b,c,d,e,f,g){c.__markCompiled&&c.__markCompiled();f.exports=c("XController").create("\/messages\/platform\/bot_review\/read\/",{page_id:{type:"FBID",required:true}});}),null);

@@ -1,3 +1,0 @@
-if (self.CavalryLogger) { CavalryLogger.start_js(["2Y22U"]); }
-
-__d('MessengerPlatformBotReviewActions',['MessengerDispatcher','MNCommerceActionTypes'],(function a(b,c,d,e,f,g){'use strict';if(c.__markCompiled)c.__markCompiled();var h={stateLoaded:function i(j){c('MessengerDispatcher').dispatch({type:c('MNCommerceActionTypes').BOT_REVIEW_STATE.LOADED,state:j});},stateLoadError:function i(j){c('MessengerDispatcher').dispatch({type:c('MNCommerceActionTypes').BOT_REVIEW_STATE.LOAD_ERROR,pageID:j});},stateReload:function i(j){c('MessengerDispatcher').dispatch({type:c('MNCommerceActionTypes').BOT_REVIEW_STATE.RELOAD,pageID:j});}};f.exports=h;}),null);
