@@ -8,7 +8,8 @@ const Joi = require('joi');
 exports.tweeter = {
   handler: function (request, reply) {
     let data = request.payload;
-    var tweeter = request.auth.credentials.loggedInUser;
+    var id = request.auth.credentials.loggedInUser;
+    User.findOne({ _id: id }).then(tweeter => {
     Tweet.find({}).populate('tweeter').then(allTweets => {
       let myTweets = [];
       for (let i = 0; i < allTweets.length; i++) {
@@ -16,7 +17,7 @@ exports.tweeter = {
           myTweets.push(allTweets[i]);
         }
       }
-
+    })
       reply.view('tweeter', {
         title: 'Tweet Tweet',
         tweets: myTweets,
@@ -29,7 +30,6 @@ exports.tweeter = {
 /*method to render the admin page*/
 exports.admin = {
   handler: function (request, reply) {
-    var admin = request.auth.credentials.loggedInUser;
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         reply.view('admin', {
@@ -113,8 +113,8 @@ exports.tweet = {
 
   },
   handler: function (request, reply) {
-    var userEmail = request.auth.credentials.loggedInUser;
-    User.findOne({ email: userEmail.email }).then(user => {
+    var id = request.auth.credentials.loggedInUser;
+    User.findOne({ _id: id }).then(user => {
       let data = request.payload;
       const tweet = new Tweet(data);
       tweet.tweeter = user._id;
@@ -147,7 +147,7 @@ exports.deletetweets = {
 
     User.find({}).then(allUsers => {
       for (let i = 0; i < allUsers.length; i++) {
-        if (allUsers[i]._id.equals(user._id)) {
+        if (allUsers[i]._id.equals(user)) {
           reply.redirect('/tweeter');
           break;
         }
@@ -179,9 +179,9 @@ exports.deletealltweets = {
     Tweet.find({}).populate('tweeter').then(allTweets=> {
       User.find({}).then(allUsers => {
         for (let i = 0; i < allUsers.length; i++) {
-          if (allUsers[i]._id.equals(user._id)) {
+          if (allUsers[i]._id.equals(user)) {
             for (let x = 0; x < allTweets.length; x++) {
-              if (allTweets[x].tweeter._id.equals(user._id)) {
+              if (allTweets[x].tweeter._id.equals(user)) {
                 let tweet = allTweets[x];
                 tweet.remove();
               }

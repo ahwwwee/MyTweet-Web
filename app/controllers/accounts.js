@@ -77,7 +77,7 @@ exports.authenticate = {
           if (foundUser && foundUser.password === user.password) {
             request.cookieAuth.set({
               loggedIn: true,
-              loggedInUser: foundUser.email,
+              loggedInUser: foundUser._id,
             });
             reply.redirect('/tweetlist');
           } else {
@@ -178,7 +178,7 @@ exports.edit = {
   handler: function (request, reply) {
     const currentUser = request.auth.credentials.loggedInUser;
     let data = request.payload;
-    User.findOne({ _id: currentUser._id }).then(edit => {
+    User.findOne({ _id: currentUser }).then(edit => {
       if (data.firstName !== '') {
         edit.firstName = data.firstName;
       }else {
@@ -219,7 +219,7 @@ exports.photoUpload = {
     handler: function (request, reply) {
       const user = request.auth.credentials.loggedInUser;
       const data = request.payload.picture;
-      User.findOne({ _id: user._id }).then(user1 => {
+      User.findOne({ _id: user }).then(user1 => {
         user1.picture.data = data;
           user1.picture.contentType = String;
         user1.save();
@@ -246,7 +246,7 @@ exports.getPicture = {
   handler: (request, reply) => {
     const user = request.auth.credentials.loggedInUser;
     console.log(user._id);
-    User.findOne({ _id: user._id }).exec((err, user) => {
+    User.findOne({ _id: user }).exec((err, user) => {
       console.log(user);
       if (user != null) {
         reply(user.picture.data).type('image');
