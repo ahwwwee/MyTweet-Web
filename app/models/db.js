@@ -6,10 +6,11 @@ mongoose.Promise = global.Promise;
 let dbURI = 'mongodb://localhost/tweet';
 console.log('Mongoose connected to ' + dbURI);
 
-  if (process.env.NODE_ENV === 'production') {
-    dbURI = process.env.MONGOLAB_URI;
-  }
-/*mongoose.connection.on('connected', function () {
+if (process.env.NODE_ENV === 'production') {
+  dbURI = process.env.MONGOLAB_URI;
+}
+
+mongoose.connection.on('connected', function () {
   if (process.env.NODE_ENV != 'production') {
     //dbURI = process.env.MONGOLAB_URI;
     var seeder = require('mongoose-seeder');
@@ -21,7 +22,7 @@ console.log('Mongoose connected to ' + dbURI);
       console.log(error);
     });
   }
-});*/
+});
 
 mongoose.connect(dbURI);
 

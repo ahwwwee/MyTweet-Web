@@ -13,13 +13,13 @@
   </tr>
   </thead>
   <tbody>
-  <form action="/deleteTweets" method="POST">
+  <form class="ui form deleteTweets">
     {{#each tweets}}
-      <tr>
+      <tr class="usertweets" value={{tweeter._id}}>
         <td class="right aligned"> {{tweeter.firstName}} {{tweeter.lastName}} </td>
         <td maxlength="15"> {{content}}</td>
         <td>
-          <input type="checkbox" name="delete" value={{_id}}>
+          <input type="checkbox" id="delete" name="delete" value={{tweeter._id}}>
         </td>
       </tr>
     {{/each}}
