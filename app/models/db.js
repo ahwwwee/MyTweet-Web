@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
 
-mongoose.connection.on('connected', function () {
+/*mongoose.connection.on('connected', function () {
   if (process.env.NODE_ENV != 'production') {
     //dbURI = process.env.MONGOLAB_URI;
     var seeder = require('mongoose-seeder');
@@ -22,7 +22,7 @@ mongoose.connection.on('connected', function () {
       console.log(err);
     });
   }
-});
+});*/
 
 mongoose.connect(dbURI);
 
