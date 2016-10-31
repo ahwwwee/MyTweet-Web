@@ -219,6 +219,7 @@ exports.photoUpload = {
     handler: function (request, reply) {
       const user = request.auth.credentials.loggedInUser;
       const data = request.payload.picture;
+      console.log(data)
       User.findOne({ _id: user }).then(user1 => {
         user1.picture.data = data;
         user1.picture.contentType = String;
