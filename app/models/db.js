@@ -19,7 +19,7 @@ mongoose.connection.on('connected', function () {
     const user = require('./user');
     seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
     }).catch(err => {
-      console.log(error);
+      console.log(err);
     });
   }
 });
