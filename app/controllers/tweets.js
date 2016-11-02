@@ -135,12 +135,14 @@ exports.deletetweets = {
     const user = request.auth.credentials.loggedInUser;
     if (data.delete) {
       if (!Array.isArray(data.delete)) {
-        Tweet.findOneAndRemove({ _id: data.delete }, function (err) {
+        Tweet.findOne({ _id: data.delete }).then(tweet => {
+          return Tweet.remove(tweet);
         });
       } else {
         let tweetIDs = data.delete;
         for (let i = 0; i < tweetIDs.length; i++) {
-          Tweet.findOneAndRemove({ _id: tweetIDs[i] }, function (err) {
+          Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
+            return Tweet.remove(tweet);
           });
         }
       }

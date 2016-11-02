@@ -51,8 +51,8 @@ function removeItemUserDropdown(id) {
 function removeTweets(id)
 {
   $('.usertweets').each(function () {
-    console.log(this.getAttribute('value'))
-    console.log(id)
+    console.log(this.getAttribute('value'));
+    console.log(id);
     if (this.getAttribute('value') === id) {
       this.remove();
     }
@@ -62,22 +62,13 @@ function removeTweets(id)
 $('.ui.form.deleteTweets')
     .form({
       fields: {
-        delete: {
-          identifier: 'delete',
-          rules: [
-            {
-              type: 'empty',
-              prompt: 'Cannot delete if no tweets are selected',
-            },
-          ],
-        },
       },
 
-        onSuccess: function (event) {
-          deleteSelectedTweets();
-          event.preventDefault();
-        },
-})
+      onSuccess: function (event) {
+        deleteSelectedTweets();
+        event.preventDefault();
+      },
+    });
 
 function deleteSelectedTweets() {
   var formData = $('input[type="checkbox"]:checked').serialize();
@@ -87,11 +78,11 @@ function deleteSelectedTweets() {
     data: formData,
 
     success: function (response) {
-      $('.usertweets').each(function() {
-        $('input[type="checkbox"]:checked').parents('tr').remove()
-      })
-    }
-  })
+      $('.usertweets').each(function () {
+        $('input[type="checkbox"]:checked').parents('tr').remove();
+      });
+    },
+  });
 }
 
 $('.ui.form.deleteAllTweets')
@@ -104,7 +95,7 @@ $('.ui.form.deleteAllTweets')
         deleteAll();
         event.preventDefault();
       },
-    })
+    });
 
 function deleteAll() {
   $.ajax({
@@ -112,9 +103,9 @@ function deleteAll() {
     url: '/deleteAllTweets',
 
     success: function (response) {
-      $('.usertweets').each(function() {
-        $('input[type="checkbox"]').parents('tr').remove()
-      })
-    }
-  })
+      $('.usertweets').each(function () {
+        $('input[type="checkbox"]').parents('tr').remove();
+      });
+    },
+  });
 }
