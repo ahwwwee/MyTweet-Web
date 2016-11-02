@@ -10,20 +10,21 @@ exports.tweeter = {
     let data = request.payload;
     var id = request.auth.credentials.loggedInUser;
     User.findOne({ _id: id }).then(tweeter => {
-    Tweet.find({}).populate('tweeter').then(allTweets => {
-      let myTweets = [];
-      for (let i = 0; i < allTweets.length; i++) {
-        if (allTweets[i].tweeter._id.equals(tweeter._id)) {
-          myTweets.push(allTweets[i]);
+      Tweet.find({}).populate('tweeter').then(allTweets => {
+        let myTweets = [];
+        for (let i = 0; i < allTweets.length; i++) {
+          if (allTweets[i].tweeter._id.equals(tweeter._id)) {
+            myTweets.push(allTweets[i]);
+          }
         }
-      }
-      reply.view('tweeter', {
-        title: 'Tweet Tweet',
-        tweets: myTweets,
-        tweeterer: tweeter,
+
+        reply.view('tweeter', {
+          title: 'Tweet Tweet',
+          tweets: myTweets,
+          tweeterer: tweeter,
+        });
       });
     });
-    })
   },
 };
 
@@ -218,6 +219,7 @@ exports.deleteuser = {
               return tweet;
             });
           }
+
           return user.remove();
         });
       });
