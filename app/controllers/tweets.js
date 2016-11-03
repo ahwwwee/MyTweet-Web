@@ -58,30 +58,31 @@ exports.adminsignup = {
 exports.tweetlist = {
   handler: function (request, reply) {
     let data = request.payload;
-    let myTweets = [];
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
-        if (data) {
-          User.findOne({ _id: data.userId }).then(tweeterer => {
+        if (data != null) {
+          let myTweets = [];
+          User.findOne({ _id: data.user }).then(tweeterer => {
             for (let i = 0; i < allTweets.length; i++) {
               if (allTweets[i].tweeter._id.equals(tweeterer._id)) {
                 myTweets.push(allTweets[i]);
               }
             }
+
+            reply.view('tweetlist', {
+              title: 'Tweet Tweet Tweet...',
+              tweets: myTweets,
+              users: allUsers,
+            });
           });
         } else {
-          myTweets = allTweets;
+          reply.view('tweetlist', {
+            title: 'Tweet Tweet Tweet...',
+            tweets: allTweets,
+            users: allUsers,
+          });
         }
-
-        reply.view('tweetlist', {
-          title: 'Tweet Tweet Tweet...',
-          tweets: myTweets,
-          users: allUsers,
-        });
-
       });
-    }).catch(err => {
-      reply.redirect('/tweeter');
     });
   },
 };
@@ -104,6 +105,7 @@ exports.tweet = {
         tweet.picture.data = data.picture;
         tweet.picture.contentType = String;
       }
+
       tweet.tweeter = user._id;
       return tweet.save();
     }).then(newTweet => {
