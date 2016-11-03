@@ -1,5 +1,5 @@
 
-<table class="ui very basic celled table">
+<table class="ui very basic celled table" style="table-layout: fixed">
   <form class="ui form deleteAllTweets">
     <button class="ui red submit button">Delete All Tweets</button>
   </form>
@@ -17,7 +17,9 @@
     {{#each tweets}}
       <tr class="usertweets" value={{tweeter._id}}>
         <td class="right aligned"> {{tweeter.firstName}} {{tweeter.lastName}} </td>
-        <td maxlength="15"> {{content}}</td>
+        <td style="word-wrap: break-word"> {{content}} {{#if this.picture.data}}
+          <br> <img src="/getTweetPicture/{{{_id}}}">
+        {{/if}}</td>
         <td>
           <input type="checkbox" id="delete" name="delete" value={{_id}}>
         </td>
@@ -25,7 +27,7 @@
     {{/each}}
     <td></td>
     <td></td>
-    <td><button class="ui red submit button">Delete</button></td>
+    <td><button class="ui mini red submit button">Delete</button></td>
   </form>
   </tbody>
 </table>

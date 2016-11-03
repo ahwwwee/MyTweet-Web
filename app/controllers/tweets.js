@@ -95,29 +95,15 @@ exports.editprofile = {
 
 /*method to Tweet, adds to the database*/
 exports.tweet = {
-  validate: {
-
-    payload: {
-      content: Joi.string().required(),
-    },
-
-    options: {
-      abortEarly: false,
-    },
-
-    failAction: function (request, reply, source, error) {
-      reply.view('tweeter', {
-        title: 'Tweet error',
-        errors: error.data.details,
-      }).code(400);
-    },
-
-  },
   handler: function (request, reply) {
     var id = request.auth.credentials.loggedInUser;
     User.findOne({ _id: id }).then(user => {
       let data = request.payload;
       const tweet = new Tweet(data);
+      if (data.picture.buffer) {
+        tweet.picture.data = data.picture;
+        tweet.picture.contentType = String;
+      }
       tweet.tweeter = user._id;
       return tweet.save();
     }).then(newTweet => {
@@ -128,12 +114,24 @@ exports.tweet = {
   },
 };
 
+/*Method to render the image from the tweet to one of the timelines. */
+exports.getPicture = {
+  handler: (request, reply) => {
+    const data = request.params;
+    Tweet.findOne({ _id: data.id }).exec((err, tweet) => {
+      if (tweet.picture != null) {
+        reply(tweet.picture.data).type('image');
+      }
+    });
+  },
+};
+
 /*method to delete a specific or list of tweets, but not all*/
 exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload;
     const user = request.auth.credentials.loggedInUser;
-    if (data.delete) {
+    if (data) {
       if (!Array.isArray(data.delete)) {
         Tweet.findOne({ _id: data.delete }).then(tweet => {
           return Tweet.remove(tweet);
@@ -206,7 +204,7 @@ exports.deleteuser = {
   handler: function (request, reply) {
     let data = request.payload;
     let usersTweets = [];
-    if (data.userId) {
+    if (data) {
       User.findOne({ _id: data.userId }).then(user => {
         Tweet.find({}).populate('tweeter').then(allTweets => {
           for (let i = 0; i < allTweets.length; i++) {

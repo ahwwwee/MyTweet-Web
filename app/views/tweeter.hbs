@@ -13,12 +13,14 @@
       <div class="ui six wide column">
         <div class="ui divider"></div>
         <h2>Here's where you tweet...</h2>
-      <form class="ui form" action="/tweet" method="POST">
+      <form class="ui form" action="/tweet" method="POST" enctype="multipart/form-data">
         <div class="ui heading">
           <input disabled value="140" id="counter">
         </div>
         <div class="field">
           <textarea id="message" placeholder="Insert Tweet here" name="content" maxlength="140" onkeydown="textCounter(this, 'counter', 140);"></textarea>
+          <i class="blue photo icon"></i>
+          <input class="ui input" type="file" name="picture">
         </div>
         <button type="submit" class="ui violet submit button">Post</button>
         <div class="ui error message"></div>

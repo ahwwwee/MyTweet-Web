@@ -21,6 +21,7 @@ module.exports = [
   { method: 'GET', path: '/adminsignup', config: Tweets.adminsignup },
   { method: 'GET', path: '/tweeter', config: Tweets.tweeter },
   { method: 'POST', path: '/tweet', config: Tweets.tweet },
+  { method: 'GET', path: '/getTweetPicture/{id}', config: Tweets.getPicture },
   { method: 'GET', path: '/tweetlist', config: Tweets.tweetlist },
   { method: 'POST', path: '/tweetlist', config: Tweets.tweetlist },
   { method: 'POST', path: '/deleteTweets', config: Tweets.deletetweets },
