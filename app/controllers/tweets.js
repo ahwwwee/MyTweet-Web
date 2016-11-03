@@ -61,7 +61,7 @@ exports.tweetlist = {
     let myTweets = [];
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
-        if (data != null) {
+        if (data) {
           User.findOne({ _id: data.userId }).then(tweeterer => {
             for (let i = 0; i < allTweets.length; i++) {
               if (allTweets[i].tweeter._id.equals(tweeterer._id)) {
