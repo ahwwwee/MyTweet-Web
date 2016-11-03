@@ -134,13 +134,13 @@ exports.deletetweets = {
     if (data) {
       if (!Array.isArray(data.delete)) {
         Tweet.findOne({ _id: data.delete }).then(tweet => {
-          return Tweet.remove(tweet);
+          tweet.remove();
         });
       } else {
         let tweetIDs = data.delete;
         for (let i = 0; i < tweetIDs.length; i++) {
           Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
-            return Tweet.remove(tweet);
+            tweet.remove();
           });
         }
       }
