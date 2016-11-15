@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  ],
+  "newUser": {
+    "firstName": "Lisa",
+    "lastName": "Simpson",
+    "email": "lisa@simpson.com",
+    "password": "secret"
+  },
+  "tweets": [
+    {
+      "content": "Tweet tweet tweet"
+    },
+    {
+      "content": "Tweet tweet tweet tweet"
+    },
+    {
+      "content": "Tweet tweetweet tweet tweet"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-const Tweet = require('../models/Tweet');
+const Tweet = require('../models/tweet');
 const User = require('../models/user');
 const Joi = require('joi');
 
@@ -17,7 +17,8 @@ exports.tweeter = {
             myTweets.push(allTweets[i]);
           }
         }
-        myTweets.sort( {datefield: -1} );
+
+        myTweets.sort({ datefield: -1 });
         reply.view('tweeter', {
           title: 'Tweet Tweet',
           tweets: myTweets,
@@ -33,7 +34,7 @@ exports.admin = {
   handler: function (request, reply) {
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
-        allTweets.sort({datefield: -1});
+        allTweets.sort({ datefield: -1 });
         reply.view('admin', {
           title: 'Admin Tweet Tweet',
           users: allUsers,
@@ -69,7 +70,8 @@ exports.tweetlist = {
                 myTweets.push(allTweets[i]);
               }
             }
-            myTweets.sort({datefield: -1});
+
+            myTweets.sort({ datefield: -1 });
             reply.view('tweetlist', {
               title: 'Tweet Tweet Tweet...',
               tweets: myTweets,
@@ -77,7 +79,7 @@ exports.tweetlist = {
             });
           });
         } else {
-          allTweets.sort({datefield: -1});
+          allTweets.sort({ datefield: -1 });
           reply.view('tweetlist', {
             title: 'Tweet Tweet Tweet...',
             tweets: allTweets,
@@ -133,21 +135,12 @@ exports.getPicture = {
 /*method to delete a specific or list of tweets, but not all*/
 exports.deletetweets = {
   handler: function (request, reply) {
-    const data = request.payload;
     const user = request.auth.credentials.loggedInUser;
-    if (data) {
-      if (!Array.isArray(data.delete)) {
-        Tweet.findOne({ _id: data.delete }).then(tweet => {
-          tweet.remove();
-        });
-      } else {
-        let tweetIDs = data.delete;
-        for (let i = 0; i < tweetIDs.length; i++) {
-          Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
-            tweet.remove();
-          });
-        }
-      }
+    const data = Object.keys(request.payload.id);
+    for (let i = 0; i < data.length; i++) {
+      Tweet.remove({ _id: data[i] }).then(tweet => {
+        reply.code(204);
+      });
     }
 
     User.find({}).then(allUsers => {

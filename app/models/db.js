@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 let dbURI = 'mongodb://homer:secret@ds027145.mlab.com:27145/mytweet';
-console.log('Mongoose connected to ' + dbURI);
 
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
