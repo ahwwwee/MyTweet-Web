@@ -7,7 +7,7 @@ exports.findAll = {
   auth: false,
 
   handler: function (request, reply) {
-    Tweet.find({}).populate('picture').populate('tweeter').then(tweets => {
+    Tweet.find({}).populate('tweeter').then(tweets => {
       reply(tweets);
     }).catch(err => {
       reply(Boom.badImplementation('Could not retrieve Tweets'));
@@ -68,14 +68,21 @@ exports.deleteSome = {
   auth: false,
 
   handler: function (request, reply) {
-    const data = Object.keys(request.params.id);
-    for (let i = 0; i < data.length; i++) {
-      Tweet.remove({ _id: data[i] }).then(tweet => {
-        reply.code(204);
-      }).catch(err => {
-        reply(Boom.badImplementation('Tweet not found'));
-      });
-    };
+    const data = request.params.id;
+    if (data) {
+      if (!Array.isArray(data)) {
+        Tweet.findOne({ _id: data }).then(tweet => {
+          reply(Tweet.remove(tweet));
+        });
+      } else {
+        let tweetIDs = data.delete;
+        for (let i = 0; i < tweetIDs.length; i++) {
+          Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
+            reply(Tweet.remove(tweet));
+          });
+        }
+      }
+    }
   },
 };
 

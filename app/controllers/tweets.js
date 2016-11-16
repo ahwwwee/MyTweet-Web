@@ -105,10 +105,6 @@ exports.tweet = {
     User.findOne({ _id: id }).then(user => {
       let data = request.payload;
       const tweet = new Tweet(data);
-      if (data.picture.buffer) {
-        tweet.picture.data = data.picture;
-        tweet.picture.contentType = String;
-      }
 
       tweet.tweeter = user._id;
       return tweet.save();
@@ -135,12 +131,21 @@ exports.getPicture = {
 /*method to delete a specific or list of tweets, but not all*/
 exports.deletetweets = {
   handler: function (request, reply) {
+    const data = request.payload.id;
     const user = request.auth.credentials.loggedInUser;
-    const data = Object.keys(request.payload.id);
-    for (let i = 0; i < data.length; i++) {
-      Tweet.remove({ _id: data[i] }).then(tweet => {
-        reply.code(204);
-      });
+    if (data) {
+      if (!Array.isArray(data)) {
+        Tweet.findOne({ _id: data }).then(tweet => {
+          reply(Tweet.remove(tweet));
+        });
+      } else {
+        let tweetIDs = data.delete;
+        for (let i = 0; i < tweetIDs.length; i++) {
+          Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
+            reply(Tweet.remove(tweet));
+          });
+        }
+      }
     }
 
     User.find({}).then(allUsers => {
@@ -213,7 +218,7 @@ exports.deleteuser = {
           for (let i = 0; i < usersTweets.length; i++) {
             Tweet.findOneAndRemove({ _id: usersTweets[i]._id }, function (err) {
             }).then(tweet => {
-              return tweet;
+              reply(tweet);
             });
           }
 

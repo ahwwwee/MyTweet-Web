@@ -7,7 +7,8 @@ server.connection({ port: process.env.PORT || 4000 });
 
 require('./app/models/db');
 
-server.register([require('inert'), require('vision'), require('hapi-auth-cookie'), require('hapi-require-https')], err => {
+server.register([require('inert'), require('vision'), require('hapi-auth-cookie'),
+  require('hapi-require-https'),], err => {
 
   if (err) {
     throw err;
