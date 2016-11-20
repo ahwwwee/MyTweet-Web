@@ -28,6 +28,8 @@ module.exports = [
   { method: 'GET', path: '/deleteAllTweets', config: Tweets.deletealltweets },
   { method: 'POST', path: '/deleteuser', config: Tweets.deleteuser },
 
+  { method: 'POST', path: '/follow', config: Tweets.follow },
+
   {
     method: 'GET',
     path: '/{param*}',

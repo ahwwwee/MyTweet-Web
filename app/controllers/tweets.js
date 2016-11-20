@@ -2,6 +2,7 @@
 
 const Tweet = require('../models/tweet');
 const User = require('../models/user');
+const Follow = require('../models/follow');
 const Joi = require('joi');
 
 /*method to render the tweeter page*/
@@ -105,6 +106,10 @@ exports.tweet = {
     User.findOne({ _id: id }).then(user => {
       let data = request.payload;
       const tweet = new Tweet(data);
+      if (data.picture.buffer) {
+          tweet.picture.data = data.picture;
+          tweet.picture.contentType = String;
+      }
 
       tweet.tweeter = user._id;
       return tweet.save();
@@ -139,7 +144,7 @@ exports.deletetweets = {
           reply(Tweet.remove(tweet));
         });
       } else {
-        let tweetIDs = data.delete;
+        let tweetIDs = data;
         for (let i = 0; i < tweetIDs.length; i++) {
           Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
             reply(Tweet.remove(tweet));
@@ -228,5 +233,16 @@ exports.deleteuser = {
     }
 
     reply.redirect('/admin');
+  },
+};
+
+exports.follow = {
+  handler: function (request, reply) {
+    let sourceId = request.auth.credentials.loggedInUser;
+    let targetId = request.payload._id;
+    const follow = new Follow();
+    follow.source = sourceId;
+    follow.target = targetId;
+    return follow.save();
   },
 };
