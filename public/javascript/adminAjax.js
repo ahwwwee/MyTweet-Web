@@ -50,9 +50,7 @@ function removeItemUserDropdown(id) {
 
 function removeTweets(id)
 {
-  $('.usertweets').each(function () {
-    console.log(this.getAttribute('value'));
-    console.log(id);
+  $('.ui.fluid.card').each(function () {
     if (this.getAttribute('value') === id) {
       this.remove();
     }
@@ -78,8 +76,8 @@ function deleteSelectedTweets() {
     data: formData,
 
     success: function (response) {
-      $('.usertweets').each(function () {
-        $('input[type="checkbox"]:checked').parents('tr').remove();
+      $('.ui.fluid.card').each(function () {
+        $('input[type="checkbox"]:checked').closest('.ui.fluid.card').remove();
       });
     },
   });

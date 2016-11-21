@@ -2,7 +2,6 @@
 
 const Tweet = require('../models/tweet');
 const User = require('../models/user');
-const Follow = require('../models/follow');
 const Joi = require('joi');
 
 /*method to render the tweeter page*/
@@ -61,6 +60,7 @@ exports.adminsignup = {
 exports.tweetlist = {
   handler: function (request, reply) {
     let data = request.payload;
+    var user = request.auth.credentials.loggedInUser;
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         if (data != null) {
@@ -77,6 +77,7 @@ exports.tweetlist = {
               title: 'Tweet Tweet Tweet...',
               tweets: myTweets,
               users: allUsers,
+              user: user,
             });
           });
         } else {
@@ -87,6 +88,25 @@ exports.tweetlist = {
             users: allUsers,
           });
         }
+      });
+    });
+  },
+};
+
+/*method to render a users public profile*/
+exports.publicProfile = {
+  handler: function (request, reply) {
+    var id = request.auth.credentials.loggedInUser;
+    User.findOne({ _id: request.params.id }).then(tweeter  => {
+      Tweet.find({}).populate('tweeter').then(allTweets => {
+        let myTweets = [];
+
+        myTweets.sort({ datefield: -1 });
+        reply.view('profile', {
+          title: 'Tweet Tweet',
+          tweets: allTweets,
+          tweeter: tweeter,
+        });
       });
     });
   },
@@ -105,14 +125,16 @@ exports.tweet = {
     var id = request.auth.credentials.loggedInUser;
     User.findOne({ _id: id }).then(user => {
       let data = request.payload;
-      const tweet = new Tweet(data);
-      if (data.picture.buffer) {
+      if ((data.content !== '') || (data.picture.buffer)) {
+        const tweet = new Tweet(data);
+        if (data.picture.buffer) {
           tweet.picture.data = data.picture;
           tweet.picture.contentType = String;
-      }
+        }
 
-      tweet.tweeter = user._id;
-      return tweet.save();
+        tweet.tweeter = user._id;
+        return tweet.save();
+      }
     }).then(newTweet => {
       reply.redirect('/tweeter');
     }).catch(err => {
@@ -146,8 +168,8 @@ exports.deletetweets = {
       } else {
         let tweetIDs = data;
         for (let i = 0; i < tweetIDs.length; i++) {
-          Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
-            reply(Tweet.remove(tweet));
+          Tweet.remove({ _id: tweetIDs[i] }).then(tweet => {
+            reply(tweet);
           });
         }
       }
@@ -167,8 +189,8 @@ exports.deletetweets = {
 };
 
 /*method to delete all tweets
-if done by admin, all are deleted.
-if done by user only users tweets are deleted.
+ if done by admin, all are deleted.
+ if done by user only users tweets are deleted.
  */
 exports.deletealltweets = {
   handler: function (request, reply) {
@@ -205,7 +227,7 @@ exports.deletealltweets = {
 };
 
 /*method to delete a user
-All users tweets are deleted before the user is deleted
+ All users tweets are deleted before the user is deleted
  */
 exports.deleteuser = {
   handler: function (request, reply) {
@@ -238,11 +260,30 @@ exports.deleteuser = {
 
 exports.follow = {
   handler: function (request, reply) {
+    //need to figure out how to check if element is in array.
     let sourceId = request.auth.credentials.loggedInUser;
-    let targetId = request.payload._id;
-    const follow = new Follow();
-    follow.source = sourceId;
-    follow.target = targetId;
-    return follow.save();
+    let targetId = request.payload.id;
+    let list = [];
+    if (sourceId !== targetId) {
+      User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+        User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+          User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
+            if (source.length == 0) {
+              sourceUser.following.push(targetId);
+              sourceUser.save();
+            }
+          });
+          User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
+            if (target.length == 0) {
+              targetUser.followedBy.push(sourceId);
+              targetUser.save();
+            }
+          });
+          return targetUser, sourceUser;
+        });
+      });
+    }
+
+    reply.redirect('/tweetlist');
   },
 };

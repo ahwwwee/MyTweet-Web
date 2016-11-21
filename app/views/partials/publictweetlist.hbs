@@ -1,60 +1,53 @@
-<div class="ui grid">
-  <div class="ui three wide column">
-    <form action="/tweetlist" method="POST">
-      <div class="ui fluid dropdown">
-        <input name="user" type="hidden">
-        <div class="text">List of Users</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          {{#each users}}
-            <div class="item" data-value={{_id}}>{{email}}</div>
-          {{/each}}
+<section class="ui raised segment">
+  <div class="ui grid">
+    <div class="ui three wide column">
+      <form action="/tweetlist" method="POST">
+        <div class="ui fluid dropdown">
+          <input name="user" type="hidden">
+          <div class="text">List of Users</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {{#each users}}
+              <div class="item" data-value={{_id}}>{{email}}</div>
+            {{/each}}
+          </div>
         </div>
-      </div>
     </div>
     <div class="ui one wide column">
       <button class="ui blue submit button">Filter</button>
-    </form>
+      </form>
+    </div>
+    <div class="ui two wide column">
+      <form action="/tweetlist" method="GET">
+        <button class="ui violet submit button">All Tweets</button>
+      </form>
+    </div>
   </div>
-  <div class="ui two wide column">
-    <form action="/tweetlist" method="GET">
-      <button class="ui violet submit button">All Tweets</button>
-    </form>
-  </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui divider"></div>
-  {{#each tweets}}
-    <div class="ui fluid card">
+  <div class="ui divider"></div>
+</section>
+{{#each tweets}}
+  <div class="ui fluid card">
+    <a href="/profile/{{{tweeter._id}}}">
       <div class="content">
-        <div class="right floated meta">14h</div>
-        <img class="ui avatar image" src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
-             onerror="this.src = $(this).attr('altSrc')"> {{tweeter.firstName}} {{tweeter.lastName}}
+        <img class="ui avatar image"> <!--src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
+             onerror="this.src = $(this).attr('altSrc')"--> {{tweeter.firstName}} {{tweeter.lastName}}
       </div>
-      <div class="content">
-        {{content}}
-        {{#if this.picture.data}}
+    </a>
+    <div class="content">
+      {{content}}
+      {{#if this.picture.data}}
         <div class="image">
           <br><img src="/getTweetPicture/{{{_id}}}">
         </div>
-        {{/if}}
-      </div>
+      {{/if}}
+    </div>
+    {{#if "this.tweeter != user"}}
       <div class="content">
         <form action="/follow" method="POST">
-          <input type="hidden" name="id" value={{_id}}>
+          <input type="hidden" name="id" value={{tweeter._id}}>
           <button class="ui small purple submit button">Follow</button>
         </form>
       </div>
-    </div>
-    <!--<tr>
-      <td><img class="ui avatar image" src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
-               onerror="this.src = $(this).attr('altSrc')">{{tweeter.firstName}} {{tweeter.lastName}} </td>
-      <td class="center aligned" style="word-wrap: break-word"> {{content}} {{#if this.picture.data}}
-        <br><img src="/getTweetPicture/{{{_id}}}">
-      {{/if}}</td>
-      <td><form action="/follow" method="POST">
-        <input type="hidden" name="id" value={{_id}}>
-        <button class="ui small purple submit button">Follow</button>
-      </form></td>
-    </tr>-->
-  {{/each}}
+    {{/if}}
+  </div>
+{{/each}}

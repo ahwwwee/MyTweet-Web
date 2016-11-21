@@ -1,0 +1,20 @@
+{{> authmenu }}
+<section class="ui container">
+  <section class="ui segment">
+    <div class="ui centered card">
+      <div class="image">
+        <img src="/getPicture"> <!--altSrc="images/placement.jpg" onerror="this.src = $(this).attr('altSrc')"-->
+      </div>
+      <div class="content">
+        <a class="header">{{tweeterer.firstName}} {{tweeterer.lastName}}</a>
+      </div>
+    </div>
+    <div class="ui grid">
+      <div class="ui ten wide column">
+        {{>tweetlist}}
+      </div>
+    </div>
+  </section>
+</section>
+</body>
+</html>
