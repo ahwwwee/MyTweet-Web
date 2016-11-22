@@ -56,6 +56,18 @@ exports.adminsignup = {
   },
 };
 
+exports.followersTweetlist = {
+  handler: function (request, reply) {
+    let data = request.payload;
+    let bool = new Boolean(true);
+    let myTweets = [];
+    var user = request.auth.credentials.loggedInUser;
+    User.find({}).then(allUsers => {
+
+    });
+  },
+};
+
 /*method to render the tweetlist, global timeline*/
 exports.tweetlist = {
   handler: function (request, reply) {
@@ -67,27 +79,22 @@ exports.tweetlist = {
       User.find({}).then(allUsers => {
         if (data != null) {
           if (data.following) {
-            //So that the following array will be populated
-            User.findOne({ _id: user }).populate('following').then(user1 => {
-              for (let i = 0; i < allTweets.length; i++) {
-                let id = allTweets[i].tweeter._id;
-                console.log(id)
-                User.find({ _id: user, following: [{ _id: id }],
-                }).then(tweet => {
-                  if (tweet.length != 0) {
-                    //console.log('allTweets at : ' + i + ' ' + allTweets[i]);
-                    myTweets.push(allTweets[i]);
-                    console.log('length: ' + myTweets.length);
-                  }
+            User.findOne({ _id: user }).populate('following').then(user => {
+              let following = [];
+              for (let i = 0; i < user.following.length; i++) {
+                following.push(user.following[i]._id);
+              };
+
+              Tweet.find({ tweeter: { $in: following } }).populate('tweeter').then(tweets => {
+                myTweets = tweets;
+              }).then(function (err) {
+                myTweets.sort({ datefield: -1 });
+                reply.view('tweetlist', {
+                  title: 'Tweet Tweet Tweet...',
+                  tweets: myTweets,
+                  users: allUsers,
+                  filter: bool,
                 });
-              }
-              console.log('Just before reply... length: ' + myTweets.length);
-              myTweets.sort({ datefield: -1 });
-              reply.view('tweetlist', {
-                title: 'Tweet Tweet Tweet...',
-                tweets: myTweets,
-                users: allUsers,
-                filter: bool,
               });
             });
           } else if (data.user) {

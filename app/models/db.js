@@ -3,25 +3,23 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-let dbURI = 'mongodb://homer:secret@ds027145.mlab.com:27145/mytweet';
-
-if (process.env.NODE_ENV === 'production') {
-  dbURI = process.env.MONGOLAB_URI;
+//let dbURI = 'mongodb://homer:secret@ds027145.mlab.com:27145/mytweet';
+let dbURI = 'mongodb://localhost/tweet';
+if (process.env.NODE_ENV != 'production') {
+ // dbURI = process.env.MONGOLAB_URI;
 }
 
-/*mongoose.connection.on('connected', function () {
-  if (process.env.NODE_ENV != 'production') {
-    //dbURI = process.env.MONGOLAB_URI;
-    var seeder = require('mongoose-seeder');
-    const data = require('./data.json');
-    const Tweet = require('./Tweet');
-    const user = require('./user');
-    seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
-    }).catch(err => {
-      console.log(err);
-    });
-  }
-});*/
+if (process.env.NODE_ENV === 'production') {
+  //dbURI = process.env.MONGOLAB_URI;
+  var seeder = require('mongoose-seeder');
+  const data = require('./data.json');
+  const Tweet = require('./tweet');
+  const user = require('./user');
+  /*seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
+   }).catch(err => {
+   console.log(err);
+   });*/
+}
 
 mongoose.connect(dbURI);
 
