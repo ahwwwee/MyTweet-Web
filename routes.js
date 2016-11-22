@@ -29,7 +29,7 @@ module.exports = [
   { method: 'POST', path: '/deleteuser', config: Tweets.deleteuser },
 
   { method: 'POST', path: '/follow', config: Tweets.follow },
-  { method: 'GET', path: '/profile/{id}', config: Tweets.publicProfile },
+  { method: 'POST', path: '/profile', config: Tweets.publicProfile },
 
   {
     method: 'GET',

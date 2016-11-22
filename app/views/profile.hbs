@@ -1,20 +1,33 @@
 {{> authmenu }}
 <section class="ui container">
-  <section class="ui segment">
-    <div class="ui centered card">
-      <div class="image">
-        <img src="/getPicture"> <!--altSrc="images/placement.jpg" onerror="this.src = $(this).attr('altSrc')"-->
-      </div>
-      <div class="content">
-        <a class="header">{{tweeterer.firstName}} {{tweeterer.lastName}}</a>
+  <div class="ui grid">
+    <div class="ui ten wide column">
+      <div class="ui centered card">
+        <div class="image">
+          <img src="/getPublicPicture/{{tweeter._id}}" altSrc="images/placement.jpg" onerror="this.src = $(this).attr('altSrc')">
+        </div>
+        <div class="content">
+          <a class="header" style="float: left">{{tweeter.firstName}} {{tweeter.lastName}}</a>
+          {{#if "this.tweeter != user"}}
+            <form style="display: inline;" action="/follow" method="POST">
+              <input type="hidden" name="id" value={{tweeter._id}}>
+              <button class="ui small purple submit button" style="float: right">Follow</button>
+            </form>
+          {{/if}}
+        </div>
       </div>
     </div>
-    <div class="ui grid">
-      <div class="ui ten wide column">
-        {{>tweetlist}}
-      </div>
+    <div class="ui five wide column">
+      <section class="ui fluid segment">
+        <h3>Following: </h3>
+        {{tweeter.following.length}} Users
+        <h3>FollowedBy: </h3>
+        {{tweeter.followedBy.length}} Users
+        <h3>Has made {{tweets.length}} posts</h3>
+      </section>
     </div>
-  </section>
+  </div>
+  {{>publictweetlist}}
 </section>
 </body>
 </html>

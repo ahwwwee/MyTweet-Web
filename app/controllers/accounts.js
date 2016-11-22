@@ -3,8 +3,8 @@
 const User = require('../models/user');
 const Joi = require('joi');
 /*
-  This file is for the creation and editing of Users.
-  and for the pages that are in use before a user needs to be logged in.
+ This file is for the creation and editing of Users.
+ and for the pages that are in use before a user needs to be logged in.
  */
 
 /*method to render welcome page
@@ -38,7 +38,7 @@ exports.login = {
 };
 
 /*used on the login page to verify that a user is in the database and that the password is correct,
-and direct the user accordingly*/
+ and direct the user accordingly*/
 exports.authenticate = {
   auth: false,
 
@@ -74,16 +74,16 @@ exports.authenticate = {
         });
         reply.redirect('/admin');
       } else { User.findOne({ email: user.email }).then(foundUser => {
-          if (foundUser && foundUser.password === user.password) {
-            request.cookieAuth.set({
-              loggedIn: true,
-              loggedInUser: foundUser._id,
-            });
-            reply.redirect('/tweetlist');
-          } else {
-            reply.redirect('/signup');
-          }
-        });
+        if (foundUser && foundUser.password === user.password) {
+          request.cookieAuth.set({
+            loggedIn: true,
+            loggedInUser: foundUser._id,
+          });
+          reply.redirect('/tweetlist');
+        } else {
+          reply.redirect('/signup');
+        }
+      });
       }
 
     }).catch(err => {
@@ -211,33 +211,33 @@ exports.edit = {
 
 exports.photoUpload = {
 
-    payload: {
-      parse: true,
-      output: 'data',
-    },
+  payload: {
+    parse: true,
+    output: 'data',
+  },
 
-    handler: function (request, reply) {
-      const user = request.auth.credentials.loggedInUser;
-      const data = request.payload.picture;
-      User.findOne({ _id: user }).then(user1 => {
-        user1.picture.data = data;
-        user1.picture.contentType = String;
-        user1.save();
-      }).then((err, user) => {
-        reply.redirect('/tweeter');
-      });
-    },
-  };
+  handler: function (request, reply) {
+    const user = request.auth.credentials.loggedInUser;
+    const data = request.payload.picture;
+    User.findOne({ _id: user }).then(user1 => {
+      user1.picture.data = data;
+      user1.picture.contentType = String;
+      user1.save();
+    }).then((err, user) => {
+      reply.redirect('/tweeter');
+    });
+  },
+};
 
 exports.getPublicPicture = {
   handler: (request, reply) => {
-      const data = request.params;
-      User.findOne({ _id: data.id }).exec((err, user) => {
-        if (user.picture != null || user != undefined) {
-          reply(user.picture.data).type('image');
-        }
-      });
-    },
+    const data = request.params;
+    User.findOne({ _id: data.id }).exec((err, user) => {
+      if (user.picture != null || user != undefined) {
+        reply(user.picture.data).type('image');
+      }
+    });
+  },
 };
 
 exports.getPicture = {

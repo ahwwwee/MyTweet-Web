@@ -14,10 +14,19 @@
       </div>
       <div class="ui five wide column">
         <div class="ui divider"></div>
-        <h3 class="ui header">Upload an Image</h3>
+        <h3 class="ui header">Upload a Profile Photo</h3>
         <form class="ui form" enctype="multipart/form-data" action="/photoUpload" method="POST">
-          <input class="ui input" type="file" name="picture">
-          <p></p>
+          <div id="File button">
+            <div style="position:absolute;">
+              <label for="picture"><i class="blue big photo icon" style="float: right"></i></label>
+            </div>
+            <div>
+              <input type="file" name="picture" id="picture" style="display:none">
+            </div>
+          </div>
+          <br>
+          <p>Click icon to choose image you want to upload</p>
+          <p></p>          <p></p>
           <button class="ui violet submit button">Upload</button>
         </form>
         <div class="ui divider"></div>

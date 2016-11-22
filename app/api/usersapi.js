@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('../models/user');
+const Tweet = require('../models/tweet');
 const Boom = require('boom');
 
 exports.findAll = {
@@ -64,6 +65,15 @@ exports.deleteOne = {
       reply(user).code(204);
     }).catch(err => {
       reply(Boom.badImplementation('error deleting User'));
+    });
+  },
+};
+
+exports.getFollowing = {
+  handler: function (request, reply) {
+    let myTweets = [];
+    Tweet.find({}).then(allTweets => {
+
     });
   },
 };

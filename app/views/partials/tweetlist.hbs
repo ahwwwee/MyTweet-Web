@@ -8,8 +8,8 @@
     <div class="ui fluid card" value="{{tweeter._id}}">
       <div class="content">
         <div class="right floated meta">14h</div>
-        <img class="ui avatar image"> <!-- src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
-             onerror="this.src = $(this).attr('altSrc')">--> {{tweeter.firstName}} {{tweeter.lastName}}
+        <img class="ui avatar image" src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
+             onerror="this.src = $(this).attr('altSrc')"> {{tweeter.firstName}} {{tweeter.lastName}}
       </div>
       <div class="content">
         {{content}}

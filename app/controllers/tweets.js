@@ -60,32 +60,60 @@ exports.adminsignup = {
 exports.tweetlist = {
   handler: function (request, reply) {
     let data = request.payload;
+    let bool = new Boolean(true);
+    let myTweets = [];
     var user = request.auth.credentials.loggedInUser;
-    User.find({}).then(allUsers => {
-      Tweet.find({}).populate('tweeter').then(allTweets => {
+    Tweet.find({}).populate('tweeter').then(allTweets => {
+      User.find({}).then(allUsers => {
         if (data != null) {
-          let myTweets = [];
-          User.findOne({ _id: data.user }).then(tweeterer => {
-            for (let i = 0; i < allTweets.length; i++) {
-              if (allTweets[i].tweeter._id.equals(tweeterer._id)) {
-                myTweets.push(allTweets[i]);
+          if (data.following) {
+            //So that the following array will be populated
+            User.findOne({ _id: user }).populate('following').then(user1 => {
+              for (let i = 0; i < allTweets.length; i++) {
+                let id = allTweets[i].tweeter._id;
+                console.log(id)
+                User.find({ _id: user, following: [{ _id: id }],
+                }).then(tweet => {
+                  if (tweet.length != 0) {
+                    //console.log('allTweets at : ' + i + ' ' + allTweets[i]);
+                    myTweets.push(allTweets[i]);
+                    console.log('length: ' + myTweets.length);
+                  }
+                });
               }
-            }
+              console.log('Just before reply... length: ' + myTweets.length);
+              myTweets.sort({ datefield: -1 });
+              reply.view('tweetlist', {
+                title: 'Tweet Tweet Tweet...',
+                tweets: myTweets,
+                users: allUsers,
+                filter: bool,
+              });
+            });
+          } else if (data.user) {
+            User.findOne({ _id: data.user }).then(tweeterer => {
+              for (let i = 0; i < allTweets.length; i++) {
+                if (allTweets[i].tweeter._id.equals(tweeterer._id)) {
+                  myTweets.push(allTweets[i]);
+                }
+              }
 
-            myTweets.sort({ datefield: -1 });
+              myTweets.sort({ datefield: -1 });
+            });
             reply.view('tweetlist', {
               title: 'Tweet Tweet Tweet...',
               tweets: myTweets,
               users: allUsers,
-              user: user,
+              filter: bool,
             });
-          });
+          }
         } else {
           allTweets.sort({ datefield: -1 });
           reply.view('tweetlist', {
             title: 'Tweet Tweet Tweet...',
             tweets: allTweets,
             users: allUsers,
+            filter: bool,
           });
         }
       });
@@ -97,14 +125,20 @@ exports.tweetlist = {
 exports.publicProfile = {
   handler: function (request, reply) {
     var id = request.auth.credentials.loggedInUser;
-    User.findOne({ _id: request.params.id }).then(tweeter  => {
+    let userTweets = [];
+    let bool = new Boolean(false);
+    User.findOne({ _id: request.payload.id }).then(tweeter  => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
-        let myTweets = [];
+        for (let i = 0; i < allTweets.length; i++) {
+          if (allTweets[i].tweeter._id.equals(tweeter._id)) {
+            userTweets.push(allTweets[i]);
+          }
+        }
 
-        myTweets.sort({ datefield: -1 });
+        userTweets.sort({ datefield: -1 });
         reply.view('profile', {
           title: 'Tweet Tweet',
-          tweets: allTweets,
+          tweets: userTweets,
           tweeter: tweeter,
         });
       });
@@ -279,6 +313,7 @@ exports.follow = {
               targetUser.save();
             }
           });
+
           return targetUser, sourceUser;
         });
       });
