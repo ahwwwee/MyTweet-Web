@@ -8,7 +8,7 @@ exports.findAll = {
   auth: false,
 
   handler: function (request, reply) {
-    User.find({}).exec().then(users => {
+    User.find({}).populate('following').populate('followedBy').exec().then(users => {
       reply(users).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error retrieving Users'));
@@ -20,7 +20,8 @@ exports.findOne = {
   auth: false,
 
   handler: function (request, reply) {
-    User.findOne({ _id: request.params.id }).then(user => {
+    User.findOne({ _id: request.params.id }).populate('following').populate('followedBy')
+        .then(user => {
       if (user != null) {
         reply(user).code(201);
       }

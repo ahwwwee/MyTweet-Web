@@ -7,7 +7,7 @@
           <img src="/getPublicPicture/{{tweeter._id}}" altSrc="images/placement.jpg" onerror="this.src = $(this).attr('altSrc')">
         </div>
         <div class="content">
-          <a class="header" style="float: left">{{tweeter.firstName}} {{tweeter.lastName}}</a>
+          <h2 class="header" style="float: left">{{tweeter.firstName}} {{tweeter.lastName}}</h2>
           {{#if "this.tweeter != user"}}
             <form style="display: inline;" action="/follow" method="POST">
               <input type="hidden" name="id" value={{tweeter._id}}>
@@ -20,9 +20,18 @@
     <div class="ui five wide column">
       <section class="ui fluid segment">
         <h3>Following: </h3>
-        {{tweeter.following.length}} Users
+        <p>{{tweeter.following.length}} Users</p>
         <h3>FollowedBy: </h3>
-        {{tweeter.followedBy.length}} Users
+        <p>{{tweeter.followedBy.length}} Users</p>
+        {{#each follower}}
+          <form style="display:inline" action="/profile" method="POST">
+            <input type="hidden" name="id" value={{_id}}>
+            <button class="ui secondary basic button" formaction="/profile" formmethod="POST">
+              <img class="ui avatar image" src="/getPublicPicture/{{{_id}}}" altSrc="images/placement.jpg"
+                   onerror="this.src = $(this).attr('altSrc')"> {{firstName}} {{lastName}}
+            </button>
+          </form>
+        {{/each}}
         <h3>Has made {{tweets.length}} posts</h3>
       </section>
     </div>

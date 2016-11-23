@@ -74,16 +74,16 @@ exports.authenticate = {
         });
         reply.redirect('/admin');
       } else { User.findOne({ email: user.email }).then(foundUser => {
-        if (foundUser && foundUser.password === user.password) {
-          request.cookieAuth.set({
-            loggedIn: true,
-            loggedInUser: foundUser._id,
-          });
-          reply.redirect('/tweetlist');
-        } else {
-          reply.redirect('/signup');
-        }
-      });
+          if (foundUser && foundUser.password === user.password) {
+            request.cookieAuth.set({
+              loggedIn: true,
+              loggedInUser: foundUser._id,
+            });
+            reply.redirect('/tweetlist');
+          } else {
+            reply.redirect('/signup');
+          }
+        });
       }
 
     }).catch(err => {

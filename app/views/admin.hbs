@@ -4,10 +4,12 @@
 <body>
 <section class="ui raised segment">
   <div class="ui grid">
-    <div class="ui three wide column">
+    <div class="ui five wide column">
+      <div class="ui divider"></div>
       <h2 class="ui header">Welcome Admin</h2>
-      <p>Want to delete a User?</p>
-      <div class="ui inverted divider"></div>
+      <div class="ui divider"></div>
+    </div>
+    <div class="ui five wide column">
       <form class="ui fluid form users">
         <div id="userDD" class="ui fluid selection dropdown">
           <input name="userId" type="hidden">
@@ -23,17 +25,28 @@
         <button class="ui fluid red submit button">Delete user</button>
         <div class="ui error message"></div>
       </form>
-      <div class="ui inverted divider"></div>
-      </form>
-      <form action="/adminsignup" method="GET">
-        <button class="ui fluid violet button">Create user</button>
-      </form>
     </div>
-    <div class="ui thirteen wide column">
-      {{>tweetlist}}
+    </form>
+    <div class="ui five wide column">
+      <div class="ui divider"></div>
+      <form action="/adminsignup" method="GET">
+        <button class="ui fluid violet button">Create new user</button>
+      </form>
+      <div class="ui divider"></div>
     </div>
   </div>
-  <script src="javascript/adminAjax.js" type="text/javascript" charset="utf-8"></script>
 </section>
+<div class="ui grid">
+  <div class="ui centered twelve wide column">
+    {{>tweetlist}}
+  </div>
+</div>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="javascript/adminCharts.js" type="text/javascript" charset="utf-8"></script>
+<script src="javascript/adminAjax.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

@@ -2,7 +2,6 @@
 <form class="ui form deleteAllTweets">
   <button class="ui red submit button">Delete All Tweets</button>
 </form>
-<div class="ui divider"></div>
 <form class="ui form deleteTweets">
   {{#each tweets}}
     <div class="ui fluid card" value="{{tweeter._id}}">
@@ -24,6 +23,8 @@
       </div>
     </div>
   {{/each}}
-  <p>Select tweets to be deleted and click this button here</p>
-  <button class="ui small red submit button">Delete</button>
+  <div class="ui raised segment">
+    <p>Select tweets to be deleted and click this button here</p>
+    <button class="ui small red submit button">Delete</button>
+  </div>
 </form>

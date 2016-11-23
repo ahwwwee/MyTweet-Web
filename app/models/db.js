@@ -10,15 +10,15 @@ if (process.env.NODE_ENV != 'production') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  //dbURI = process.env.MONGOLAB_URI;
+   dbURI = process.env.MONGOLAB_URI;
   var seeder = require('mongoose-seeder');
   const data = require('./data.json');
   const Tweet = require('./tweet');
   const user = require('./user');
-  /*seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
+  seeder.seed(data, { dropDatabase: false, dropCollections: true }).then(dbData => {
    }).catch(err => {
    console.log(err);
-   });*/
+   });
 }
 
 mongoose.connect(dbURI);

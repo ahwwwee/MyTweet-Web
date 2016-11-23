@@ -8,8 +8,10 @@ const Joi = require('joi');
 exports.tweeter = {
   handler: function (request, reply) {
     let data = request.payload;
+    let followers = [];
+    let followings = [];
     var id = request.auth.credentials.loggedInUser;
-    User.findOne({ _id: id }).then(tweeter => {
+    User.findOne({ _id: id }).populate('following').then(tweeter => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         let myTweets = [];
         for (let i = 0; i < allTweets.length; i++) {
@@ -19,15 +21,62 @@ exports.tweeter = {
         }
 
         myTweets.sort({ datefield: -1 });
-        reply.view('tweeter', {
-          title: 'Tweet Tweet',
-          tweets: myTweets,
-          tweeterer: tweeter,
-        });
+        let following = [];
+        for (let i = 0; i < tweeter.following.length; i++) {
+          following.push(tweeter.following[i]._id);
+        }
+
+        if (following.length != 0) {
+          User.find({ _id: { $in: following } }).then(users => {
+            followings = users;
+          }).then(function (err) {
+            reply.view('tweeter', {
+              title: 'Tweet Tweet',
+              tweets: myTweets,
+              tweeterer: tweeter,
+              following: followings,
+            });
+          });
+        } else {
+          reply.view('tweeter', {
+            title: 'Tweet Tweet',
+            tweets: myTweets,
+            tweeterer: tweeter,
+            following: followings,
+          });
+        }
       });
     });
   },
 };
+
+exports.users = {
+  handler: function (request, reply) {
+    User.find({}).then(allUsers => {
+      reply.view('users', {
+        title: 'list of all users',
+        users: allUsers,
+      });
+    });
+  },
+};
+
+exports.charts = {
+  handler: function (request, reply) {
+    User.find({}).then(allUsers => {
+      Tweet.find({}).populate('tweeter').then(allTweets => {
+        allTweets.sort({ datefield: -1 });
+        reply.view('charts', {
+          title: 'Stats Tweet Tweet',
+          users: allUsers,
+          tweets: allTweets,
+        });
+      });
+    }).catch(err => {
+      reply.redirect('/');
+    });
+  }
+}
 
 /*method to render the admin page*/
 exports.admin = {
@@ -134,7 +183,8 @@ exports.publicProfile = {
     var id = request.auth.credentials.loggedInUser;
     let userTweets = [];
     let bool = new Boolean(false);
-    User.findOne({ _id: request.payload.id }).then(tweeter  => {
+    let followers = [];
+    User.findOne({ _id: request.payload.id }).populate('followedBy').then(tweeter => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         for (let i = 0; i < allTweets.length; i++) {
           if (allTweets[i].tweeter._id.equals(tweeter._id)) {
@@ -143,11 +193,30 @@ exports.publicProfile = {
         }
 
         userTweets.sort({ datefield: -1 });
-        reply.view('profile', {
-          title: 'Tweet Tweet',
-          tweets: userTweets,
-          tweeter: tweeter,
-        });
+        let followedBy = [];
+        for (let i = 0; i < tweeter.followedBy.length; i++) {
+          followedBy.push(tweeter.followedBy[i]._id);
+        }
+
+        if (followedBy.length != 0) {
+          User.find({ _id: { $in: followedBy } }).then(users => {
+            followers = users;
+          }).then(function (err) {
+            reply.view('profile', {
+              title: 'Tweet Tweet',
+              tweets: userTweets,
+              tweeter: tweeter,
+              follower: followers,
+            });
+          });
+        } else {
+          reply.view('profile', {
+            title: 'Tweet Tweet',
+            tweets: userTweets,
+            tweeter: tweeter,
+            follower: followers,
+          });
+        }
       });
     });
   },
@@ -275,7 +344,7 @@ exports.deleteuser = {
     let data = request.payload;
     let usersTweets = [];
     if (data) {
-      User.findOne({ _id: data.userId }).then(user => {
+      User.findOne({ _id: data.userId }).populate('following').populate('followedBy').then(user => {
         Tweet.find({}).populate('tweeter').then(allTweets => {
           for (let i = 0; i < allTweets.length; i++) {
             if (allTweets[i].tweeter._id.equals(user._id)) {
@@ -290,7 +359,39 @@ exports.deleteuser = {
             });
           }
 
-          return user.remove();
+          let followedBy = [];
+          for (let i = 0; i < user.followedBy.length; i++) {
+            followedBy.push(user.followedBy[i]._id);
+          }
+
+          let following = [];
+          for (let i = 0; i < user.following.length; i++) {
+            following.push(user.following[i]._id);
+          }
+
+          if (following.length > 0) {
+            User.find({ _id: { $in: following } }).then(users => {
+              for (let i = 0; i < users.length; i++) {
+                User.findOne({ _id: users[i]._id }).populate('followedBy').then(another => {
+                  another.followedBy.pop(user._id);
+                  return another.save();
+                });
+              }
+            });
+          }
+
+          if (followedBy.length > 0) {
+            User.find({ _id: { $in: followedBy } }).then(users => {
+              for (let i = 0; i < users.length; i++) {
+                User.findOne({ _id: users[i]._id }).populate('following').then(another => {
+                  another.following.pop(user._id);
+                  return another.save();
+                });
+              }
+            });
+          } else {
+            return user.remove();
+          }
         });
       });
     }

@@ -29,7 +29,9 @@ module.exports = [
   { method: 'POST', path: '/deleteuser', config: Tweets.deleteuser },
 
   { method: 'POST', path: '/follow', config: Tweets.follow },
+  { method: 'GET', path: '/charts', config: Tweets.charts },
   { method: 'POST', path: '/profile', config: Tweets.publicProfile },
+  { method: 'GET', path: '/users', config: Tweets.users },
 
   {
     method: 'GET',

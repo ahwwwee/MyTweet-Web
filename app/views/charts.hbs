@@ -1,0 +1,22 @@
+{{>adminmenu}}
+<section class="ui raised segment">
+  <div class="ui grid">
+    <div class="ui three wide column">
+      <h2>General Stats</h2>
+      <h4>Users: </h4><p>{{users.length}}</p>
+      <h4>Tweets: </h4><p>{{tweets.length}}</p>
+    </div>
+    <div class="ui twelve wide column">
+      <h2>How many users are following each user</h2>
+      <div id="chartFollowers" style="width:100%; height:150px;"></div>
+      <h2>How many users are each user following</h2>
+      <div id="chartFollowing" style="width:100%; height:150px;"></div>
+    </div>
+  </div>
+</section>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="javascript/adminCharts.js" type="text/javascript" charset="utf-8"></script>

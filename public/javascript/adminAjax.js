@@ -33,6 +33,7 @@ function deleteUser() {
       let id = $('#userDD').dropdown('get value');
       removeItemUserDropdown(id);
       removeTweets(id);
+      toStart()
     },
   });
 };
