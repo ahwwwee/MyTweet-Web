@@ -1,8 +1,8 @@
 {{#if filter}}
   <section class="ui raised segment">
     <div class="ui grid">
-      <div class="ui three wide column">
-        <form action="/tweetlist" method="POST">
+      <form action="/tweetlist" method="POST">
+        <div class="ui three wide column">
           <div class="ui fluid dropdown">
             <input name="user" type="hidden">
             <div class="text">List of Users</div>
@@ -16,8 +16,8 @@
         </div>
         <div class="ui one wide column">
           <button class="ui blue submit button">Filter</button>
-        </form>
-      </div>
+        </div>
+      </form>
       <div class="ui two wide column">
         <form action="/tweetlist" method="GET">
           <button class="ui violet submit button">All Tweets</button>
@@ -48,7 +48,7 @@
     <div class="content">
       {{content}}
       {{#if this.picture.data}}
-        <div class="image">
+        <div class="ui centered large image">
           <br><img src="/getTweetPicture/{{{_id}}}">
         </div>
       {{/if}}

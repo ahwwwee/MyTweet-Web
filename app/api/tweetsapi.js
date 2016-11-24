@@ -103,3 +103,17 @@ exports.deleteUserTweets = {
   },
 
 };
+
+exports.update = {
+  auth: false,
+
+  handler: function (request, reply) {
+    const data = request.payload;
+    Tweet.findOne({ _id: request.params.id }).then(tweet => {
+        tweet.content = data.content;
+        tweet.save();
+      }).then(tweet2 => {
+      reply(tweet2);
+    });
+  },
+};

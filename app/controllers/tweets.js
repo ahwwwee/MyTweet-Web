@@ -50,6 +50,8 @@ exports.tweeter = {
   },
 };
 
+/*method to render the users page, which allows user to
+ view all users on one page and navigate to any public profile*/
 exports.users = {
   handler: function (request, reply) {
     User.find({}).then(allUsers => {
@@ -61,6 +63,7 @@ exports.users = {
   },
 };
 
+/*method to render the charts page, which is only on the admins page*/
 exports.charts = {
   handler: function (request, reply) {
     User.find({}).then(allUsers => {
@@ -241,7 +244,6 @@ exports.tweet = {
           tweet.picture.data = data.picture;
           tweet.picture.contentType = String;
         }
-
         tweet.tweeter = user._id;
         return tweet.save();
       }
@@ -314,25 +316,26 @@ exports.deletealltweets = {
       });
 
       reply.redirect('/admin');
-    }
+    } else {
 
-    Tweet.find({}).populate('tweeter').then(allTweets=> {
-      User.find({}).then(allUsers => {
-        for (let i = 0; i < allUsers.length; i++) {
-          if (allUsers[i]._id.equals(user)) {
-            for (let x = 0; x < allTweets.length; x++) {
-              if (allTweets[x].tweeter._id.equals(user)) {
-                let tweet = allTweets[x];
-                tweet.remove();
+      Tweet.find({}).populate('tweeter').then(allTweets=> {
+        User.find({}).then(allUsers => {
+          for (let i = 0; i < allUsers.length; i++) {
+            if (allUsers[i]._id.equals(user)) {
+              for (let x = 0; x < allTweets.length; x++) {
+                if (allTweets[x].tweeter._id.equals(user)) {
+                  let tweet = allTweets[x];
+                  tweet.remove();
+                }
               }
-            }
 
-            reply.redirect('/tweeter');
-            break;
+              reply.redirect('/tweeter');
+              break;
+            }
           }
-        }
+        });
       });
-    });
+    }
   },
 };
 

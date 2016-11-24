@@ -48,6 +48,10 @@ class TweetService {
   deleteUsersTweets(id) {
     return this.httpService.delete('/api/users/' + id + '/tweets');
   }
+
+  updateTweet(id, content) {
+    return this.httpService.post('/api/update/' + id, content);
+  }
 }
 
 module.exports = TweetService;

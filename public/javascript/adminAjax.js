@@ -102,8 +102,8 @@ function deleteAll() {
     url: '/deleteAllTweets',
 
     success: function (response) {
-      $('.usertweets').each(function () {
-        $('input[type="checkbox"]').parents('tr').remove();
+      $('.ui.fluid.card').each(function () {
+        $('.ui.fluid.card').remove();
       });
     },
   });
