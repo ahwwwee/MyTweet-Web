@@ -42,11 +42,7 @@ exports.create = {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
     }
-    let d = new Date();
-    let datestring = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) +
-        '-' + d.getFullYear() + ' ' + ('0' + d.getHours()).slice(-2) + ':' +
-        ('0' + d.getMinutes()).slice(-2);
-    tweet.date = datestring;
+
     tweet.save().then(newTweet => {
       console.log(newTweet);
       reply(newTweet).code(201);

@@ -244,11 +244,7 @@ exports.tweet = {
           tweet.picture.data = data.picture;
           tweet.picture.contentType = String;
         }
-        let d = new Date();
-        let datestring = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) +
-            '-' + d.getFullYear() + ' ' + ('0' + d.getHours()).slice(-2) + ':' +
-            ('0' + d.getMinutes()).slice(-2);
-        tweet.date = datestring;
+        
         tweet.tweeter = user._id;
         return tweet.save();
       }
