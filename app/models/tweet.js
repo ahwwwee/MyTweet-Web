@@ -5,7 +5,7 @@ const tweetSchema = mongoose.Schema({
   content: String,
   date: String,
   picture: { data: Buffer, contentType: String },
-  date: { type: Date, default: Date() },
+  date: String,
   tweeter: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
