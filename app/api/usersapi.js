@@ -70,9 +70,31 @@ exports.deleteOne = {
   },
 };
 
+exports.getFollowingTweets = {
+  auth: false,
+
+  handler: function (request, reply) {
+    let myTweets = [];
+    User.findOne({ _id: request.param.id }).populate('following').then(user => {
+      let following = [];
+      for (let i = 0; i < user.following.length; i++) {
+        following.push(user.following[i]._id);
+      }
+
+      ;
+      Tweet.find({ tweeter: { $in: following } }).populate('tweeter').then(tweets => {
+        myTweets = tweets;
+      }).then(function (err) {
+        myTweets.sort({ datefield: -1 });
+        reply(myTweets);
+      });
+    });
+  },
+};
+
 exports.follow = {
   auth: false,
-  
+
   handler: function (request, reply) {
     let sourceId = request.params.id;
     let targetId = request.payload.target;
@@ -96,17 +118,17 @@ exports.follow = {
         });
       });
     }
-  }
-}
+  },
+};
 
 exports.following = {
   auth: false,
 
   handler: function (request, reply) {
-    let array = []
+    let array = [];
     User.findOne({ _id: request.params.id }).populate('following').then(user => {
       array = user.following;
       reply(array);
-    })
-  }
-}
+    });
+  },
+};
