@@ -70,11 +70,41 @@ exports.deleteOne = {
   },
 };
 
-exports.getFollowing = {
+exports.follow = {
   handler: function (request, reply) {
-    let myTweets = [];
-    Tweet.find({}).then(allTweets => {
+    let sourceId = request.params.id;
+    let targetId = request.payload.target;
+    if (sourceId !== targetId) {
+      User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+        User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+          User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
+            if (source.length == 0) {
+              sourceUser.following.push(targetId);
+              sourceUser.save();
+            }
+          });
+          User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
+            if (target.length == 0) {
+              targetUser.followedBy.push(sourceId);
+              targetUser.save();
+            }
+          });
 
-    });
-  },
-};
+          return targetUser, sourceUser;
+        });
+      });
+    }
+  }
+}
+
+exports.following = {
+  auth: false,
+  
+  handler: function (request, reply) {
+    let array = []
+    User.findOne({ _id: request.params.id }).populate('following').then(user => {
+      array = user.following;
+      reply(array);
+    })
+  }
+}
