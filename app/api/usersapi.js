@@ -77,6 +77,7 @@ exports.getFollowingTweets = {
     let myTweets = [];
     User.findOne({ _id: request.params.id }).populate('following').then(user => {
       let following = [];
+      following.push(user._id);
       for (let i = 0; i < user.following.length; i++) {
         following.push(user.following[i]._id);
       }
