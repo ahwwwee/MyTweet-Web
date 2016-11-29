@@ -75,18 +75,14 @@ exports.getFollowingTweets = {
 
   handler: function (request, reply) {
     let myTweets = [];
-    User.findOne({ _id: request.param.id }).populate('following').then(user => {
+    User.findOne({ _id: request.params.id }).populate('following').then(user => {
       let following = [];
       for (let i = 0; i < user.following.length; i++) {
         following.push(user.following[i]._id);
       }
 
-      ;
       Tweet.find({ tweeter: { $in: following } }).populate('tweeter').then(tweets => {
-        myTweets = tweets;
-      }).then(function (err) {
-        myTweets.sort({ datefield: -1 });
-        reply(myTweets);
+        reply(tweets);
       });
     });
   },
