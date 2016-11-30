@@ -5,18 +5,29 @@ const TweetService = require('./tweet-service');
 const fixtures = require('./fixtures.json');
 const utils = require('../app/api/utils.js');
 
-suite('Candidate API tests', function () {
+suite('Auth Api tests', function () {
 
   let users = fixtures.users;
   let newUser = fixtures.newUser;
+  let user;
 
-  const tweetService = new TweetService('http://localhost:4000');
+  const tweetService = new TweetService(fixtures.tweetService);
+
+
+  beforeEach(function () {
+    tweetService.deleteAllUsers();
+  });
+
+  afterEach(function () {
+    tweetService.deleteAllUsers();
+  });
 
   test('login-logout', function () {
     var returnedTweets = tweetService.getTweets();
     assert.isNull(returnedTweets);
 
-    const response = tweetService.login(users[0]);
+    user = tweetService.createUser(newUser);
+    const response = tweetService.login(user);
     returnedTweets = tweetService.getTweets();
     assert.isNotNull(returnedTweets);
 

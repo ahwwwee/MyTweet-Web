@@ -4,7 +4,9 @@ const Tweet = require('../models/tweet');
 const Boom = require('boom');
 
 exports.findAll = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Tweet.find({}).populate('tweeter').then(tweets => {
@@ -16,7 +18,9 @@ exports.findAll = {
 };
 
 exports.findOne = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Tweet.findOne({ _id: request.params.id }).populate('picture').populate('tweeter')
@@ -33,7 +37,9 @@ exports.findOne = {
 };
 
 exports.create = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     let tweet = new Tweet(request.payload);
@@ -53,7 +59,9 @@ exports.create = {
 };
 
 exports.deleteAll = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Tweet.remove({}).then(err => {
@@ -65,7 +73,9 @@ exports.deleteAll = {
 };
 
 exports.deleteSome = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     const data = request.params.id;
@@ -87,8 +97,9 @@ exports.deleteSome = {
 };
 
 exports.deleteUserTweets = {
-
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     Tweet.find({ tweeter: request.params.id }).then(tweets => {
@@ -105,7 +116,9 @@ exports.deleteUserTweets = {
 };
 
 exports.update = {
-  auth: false,
+  auth: {
+    strategy: 'jwt',
+  },
 
   handler: function (request, reply) {
     const data = request.payload;

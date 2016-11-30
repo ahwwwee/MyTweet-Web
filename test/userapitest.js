@@ -13,11 +13,11 @@ suite('User API tests', function () {
   const tweetService = new TweetService('http://localhost:4000');
 
   beforeEach(function () {
-    tweetService.deleteAllUsers();
+    tweetService.login(users[0]);
   });
 
   afterEach(function () {
-    tweetService.deleteAllUsers();
+    tweetService.logout();
   });
 
   test('create a user', function () {
@@ -46,14 +46,14 @@ suite('User API tests', function () {
     assert(tweetService.getUser(c._id) == null);
   });
 
-  test('get all users', function () {
+  /*test('get all users', function () {
     for (let c of users) {
       tweetService.createUser(c);
     }
 
     const allUsers = tweetService.getUsers();
     assert.equal(allUsers.length, users.length);
-  });
+  });*/
 
   test('get users detail', function () {
     for (let c of users) {
@@ -66,8 +66,8 @@ suite('User API tests', function () {
     }
   });
 
-  test('get all Users empty', function () {
+  /*test('get all Users empty', function () {
     const allUsers = tweetService.getUsers();
     assert.equal(allUsers.length, 0);
-  });
+  });*/
 });

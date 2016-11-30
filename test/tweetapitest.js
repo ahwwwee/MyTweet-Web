@@ -13,6 +13,7 @@ suite('Tweet API tests', function () {
   const tweetService = new TweetService('http://localhost:4000');
 
   beforeEach(function () {
+    tweetService.login(users[0]);
     tweetService.deleteAllUsers();
     tweetService.deleteAllTweets();
   });
@@ -20,6 +21,7 @@ suite('Tweet API tests', function () {
   afterEach(function () {
     tweetService.deleteAllUsers();
     tweetService.deleteAllTweets();
+    tweetService.logout();
   });
 
   test('create a tweet', function () {

@@ -1,4 +1,5 @@
 {
+  "tweetService": "http://localhost:4000",
   "users": [
     {
       "firstName": "Homer",

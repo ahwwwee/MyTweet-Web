@@ -9,6 +9,14 @@ class TweetService {
     this.httpService = new SyncHttpService(baseUrl);
   }
 
+  login(user) {
+    return this.httpService.setAuth('/api/users/authenticate', user);
+  }
+
+  logout() {
+    this.httpService.clearAuth();
+  }
+
   getUsers() {
     return this.httpService.get('/api/users');
   }
@@ -51,6 +59,10 @@ class TweetService {
 
   updateTweet(id, content) {
     return this.httpService.post('/api/update/' + id, content);
+  }
+
+  authenticate(user) {
+    return this.httpService.post('/api/users/authenticate', user);
   }
 }
 
