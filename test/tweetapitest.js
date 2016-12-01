@@ -9,17 +9,17 @@ suite('Tweet API tests', function () {
 
   let tweets = fixtures.tweets;
   let newUser = fixtures.newUser;
+  let users = fixtures.users;
 
   const tweetService = new TweetService('http://localhost:4000');
 
   beforeEach(function () {
-    tweetService.login(users[0]);
-    tweetService.deleteAllUsers();
+    tweetService.createUser(newUser);
+    tweetService.login(newUser);
     tweetService.deleteAllTweets();
   });
 
   afterEach(function () {
-    tweetService.deleteAllUsers();
     tweetService.deleteAllTweets();
     tweetService.logout();
   });

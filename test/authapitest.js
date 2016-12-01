@@ -13,7 +13,6 @@ suite('Auth Api tests', function () {
 
   const tweetService = new TweetService(fixtures.tweetService);
 
-
   beforeEach(function () {
     tweetService.deleteAllUsers();
   });
