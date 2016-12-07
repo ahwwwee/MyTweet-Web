@@ -78,8 +78,8 @@ exports.charts = {
     }).catch(err => {
       reply.redirect('/');
     });
-  }
-}
+  },
+};
 
 /*method to render the admin page*/
 exports.admin = {
@@ -186,6 +186,7 @@ exports.publicProfile = {
     var id = request.auth.credentials.loggedInUser;
     let userTweets = [];
     let bool = new Boolean(false);
+    let friend;
     let followers = [];
     User.findOne({ _id: request.payload.id }).populate('followedBy').then(tweeter => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
@@ -199,6 +200,9 @@ exports.publicProfile = {
         let followedBy = [];
         for (let i = 0; i < tweeter.followedBy.length; i++) {
           followedBy.push(tweeter.followedBy[i]._id);
+          if (tweeter.followedBy[i]._id == id) {
+            friend = new Boolean(true);
+          }
         }
 
         if (followedBy.length != 0) {
@@ -210,6 +214,7 @@ exports.publicProfile = {
               tweets: userTweets,
               tweeter: tweeter,
               follower: followers,
+              friend: friend,
             });
           });
         } else {
@@ -218,6 +223,7 @@ exports.publicProfile = {
             tweets: userTweets,
             tweeter: tweeter,
             follower: followers,
+            friend: friend,
           });
         }
       });
@@ -244,7 +250,7 @@ exports.tweet = {
           tweet.picture.data = data.picture;
           tweet.picture.contentType = String;
         }
-        
+
         tweet.tweeter = user._id;
         return tweet.save();
       }
@@ -425,6 +431,31 @@ exports.follow = {
               targetUser.save();
             }
           });
+
+          return targetUser, sourceUser;
+        });
+      });
+    }
+
+    reply.redirect('/tweetlist');
+  },
+};
+
+exports.unfollow = {
+  handler: function (request, reply) {
+    //need to figure out how to check if element is in array.
+    let sourceId = request.auth.credentials.loggedInUser;
+    let targetId = request.payload.id;
+    let list = [];
+    if (sourceId !== targetId) {
+      User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+        User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+
+          sourceUser.following.pop(targetId);
+          sourceUser.save();
+
+          targetUser.followedBy.pop(sourceId);
+          targetUser.save();
 
           return targetUser, sourceUser;
         });
