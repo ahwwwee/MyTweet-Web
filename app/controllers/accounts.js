@@ -2,6 +2,8 @@
 
 const User = require('../models/user');
 const Joi = require('joi');
+var Bcrypt = require('bcrypt-nodejs');
+
 /*
  This file is for the creation and editing of Users.
  and for the pages that are in use before a user needs to be logged in.
@@ -74,7 +76,7 @@ exports.authenticate = {
         });
         reply.redirect('/admin');
       } else { User.findOne({ email: user.email }).then(foundUser => {
-          if (foundUser && foundUser.password === user.password) {
+          if (foundUser && Bcrypt.compareSync(user.password, foundUser.password)) {
             request.cookieAuth.set({
               loggedIn: true,
               loggedInUser: foundUser._id,
@@ -129,6 +131,7 @@ exports.register = {
 
   handler: function (request, reply) {
     const user = new User(request.payload);
+    user.password = Bcrypt.hashSync(user.password);
     user.save().then(newUser => {
       reply.redirect('/login');
     }).catch(err => {

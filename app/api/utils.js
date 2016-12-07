@@ -31,3 +31,17 @@ exports.validate = function (decoded, request, callback) {
     callback(null, false);
   });
 };
+
+exports.getUserIdFromRequest = function (request) {
+  var userId = null;
+  try {
+    const authorization = request.headers.authorization;
+    var token = authorization.split(' ')[1];
+    var decodedToken = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
+    userId = decodedToken.id;
+  } catch (e) {
+    userId = null;
+  }
+
+  return userId;
+};

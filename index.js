@@ -4,12 +4,13 @@ const Hapi = require('hapi');
 const utils = require('./app/api/utils.js');
 
 var server = new Hapi.Server();
+
 server.connection({ port: process.env.PORT || 4000 });
 
 require('./app/models/db');
 
 server.register([require('inert'), require('vision'), require('hapi-auth-cookie'),
-  require('hapi-require-https'), require('hapi-auth-jwt2'),], err => {
+  require('hapi-auth-jwt2'),], err => {
 
   if (err) {
     throw err;
