@@ -48,6 +48,7 @@ exports.createUser = {
         user.save();
       }
     }).then(user => {
+      user.password = request.payload.password;
       reply(user).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating User'));
