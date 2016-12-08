@@ -46,9 +46,9 @@ exports.createUser = {
         let user = new User(request.payload);
         user.password = Bcrypt.hashSync(user.password);
         user.save();
+        user.password = request.payload.password;
       }
     }).then(user => {
-      user.password = request.payload.password;
       reply(user).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating User'));
