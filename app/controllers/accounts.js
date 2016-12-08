@@ -202,7 +202,7 @@ exports.edit = {
       }
 
       if (data.password !== '') {
-        edit.password = data.password;
+        edit.password =     user.password = Bcrypt.hashSync(data.password);
       }else {
         edit.password = edit.password;
       }

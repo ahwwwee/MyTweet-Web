@@ -41,9 +41,13 @@ exports.createUser = {
   auth: false,
 
   handler: function (request, reply) {
-    let user = new User(request.payload);
-    user.password = Bcrypt.hashSync(user.password);
-    user.save().then(user => {
+    User.findOne({ email: request.payload.email }).then(user1 => {
+      if (user1 == null) {
+        let user = new User(request.payload);
+        user.password = Bcrypt.hashSync(user.password);
+        user.save();
+      }
+    }).then(user => {
       reply(user).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating User'));
