@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Tweet = require('../models/tweet');
 const Boom = require('boom');
 const utils = require('./utils.js');
+var Bcrypt = require('bcrypt-nodejs');
 
 exports.findAll = {
   auth: {
