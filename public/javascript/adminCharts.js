@@ -4,7 +4,7 @@
 let array = [];
 
 function toStart() {
-  $.get('/api/users', function (data) {
+  $.get('/findAllUsers', function (data) {
   }).done(function (data) {
     $.each(data, function (index, user)
     {
