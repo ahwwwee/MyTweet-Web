@@ -254,3 +254,14 @@ exports.getPicture = {
     });
   },
 };
+
+exports.findAllUsers = {
+  auth: false,
+  handler: function (request, reply) {
+    User.find({}).exec().then(users => {
+      reply(users).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error retrieving Users'));
+    });
+  },
+}

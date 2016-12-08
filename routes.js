@@ -15,6 +15,7 @@ module.exports = [
   { method: 'POST', path: '/photoUpload', config: Accounts.photoUpload },
   { method: 'GET', path: '/getPicture', config: Accounts.getPicture },
   { method: 'GET', path: '/getPublicPicture/{id}', config: Accounts.getPublicPicture },
+  { method: 'GET', path: '/findAllUsers', config: Accounts.findAllUsers },
 
   { method: 'GET', path: '/editprofile', config: Tweets.editprofile },
   { method: 'GET', path: '/admin', config: Tweets.admin },
