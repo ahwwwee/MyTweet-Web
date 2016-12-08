@@ -20,12 +20,10 @@ exports.findAll = {
 };
 
 exports.findOne = {
-  auth: {
-    strategy: 'jwt',
-  },
+  auth: false,
 
   handler: function (request, reply) {
-    User.findOne({ _id: request.params.id }).populate('following').populate('followedBy')
+    User.findOne({ email: request.params.email }).populate('following').populate('followedBy')
         .then(user => {
       if (user != null) {
         reply(user).code(201);

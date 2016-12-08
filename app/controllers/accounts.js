@@ -168,6 +168,7 @@ exports.adminregister = {
 
   handler: function (request, reply) {
     const user = new User(request.payload);
+    user.password = Bcrypt.hashSync(user.password);
     user.save().then(newUser => {
       reply.redirect('/admin');
     }).catch(err => {

@@ -4,7 +4,7 @@ const UsersApi = require('./app/api/usersapi');
 module.exports = [
 
     { method: 'GET', path: '/api/tweets', config: TweetsApi.findAll },
-    { method: 'GET', path: '/api/tweets/{id}', config: TweetsApi.findOne },
+    { method: 'GET', path: '/api/tweets/{email}', config: TweetsApi.findOne },
     { method: 'POST', path: '/api/users/{id}/tweets', config: TweetsApi.create },
     { method: 'DELETE', path: '/api/tweets/{id}', config: TweetsApi.deleteSome },
     { method: 'DELETE', path: '/api/tweets', config: TweetsApi.deleteAll },
