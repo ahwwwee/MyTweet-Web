@@ -172,14 +172,12 @@ exports.authenticate = {
 
   handler: function (request, reply) {
     const user = request.payload;
-    User.findOne({ email: user.email }).then(foundUser => {
+    User.findOne({ _id: user._id }).then(foundUser => {
       if (foundUser &&  Bcrypt.compareSync(user.password, foundUser.password)) {
-        console.log('gots me a token')
         const token = utils.createToken(foundUser);
         reply({ success: true, token: token, user: foundUser }).code(201);
       } else {
         reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
-        console.log(user)
       }
     }).catch(err => {
       reply(Boom.notFound('internal db failure'));
