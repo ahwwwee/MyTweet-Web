@@ -43,7 +43,6 @@ exports.createUser = {
   handler: function (request, reply) {
     User.findOne({ email: request.payload.email }).then(user1 => {
       let user = new User(request.payload);
-      user.password = Bcrypt.hashSync(user.password);
       user.save();
     }).then(user => {
       reply(user).code(201);
