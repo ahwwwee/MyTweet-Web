@@ -26,12 +26,12 @@ exports.findOne = {
   handler: function (request, reply) {
     User.findOne({ email: request.params.email }).populate('following').populate('followedBy')
         .then(user => {
-      if (user != null) {
-        reply(user).code(201);
-      }
+          if (user != null) {
+            reply(user).code(201);
+          }
 
-      reply(Boom.notFound('id not found'));
-    }).catch(err => {
+          reply(Boom.notFound('id not found'));
+        }).catch(err => {
       reply(Boom.badImplementation('error retrieving User'));
     });
   },
@@ -42,12 +42,9 @@ exports.createUser = {
 
   handler: function (request, reply) {
     User.findOne({ email: request.payload.email }).then(user1 => {
-      if (user1 == null) {
-        let user = new User(request.payload);
-        user.password = Bcrypt.hashSync(user.password);
-        user.save();
-        user.password = request.payload.password;
-      }
+      let user = new User(request.payload);
+      user.password = Bcrypt.hashSync(user.password);
+      user.save();
     }).then(user => {
       reply(user).code(201);
     }).catch(err => {
