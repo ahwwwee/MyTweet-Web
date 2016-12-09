@@ -412,7 +412,6 @@ exports.deleteuser = {
 
 exports.follow = {
   handler: function (request, reply) {
-    //need to figure out how to check if element is in array.
     let sourceId = request.auth.credentials.loggedInUser;
     let targetId = request.payload.id;
     let list = [];
@@ -443,24 +442,20 @@ exports.follow = {
 
 exports.unfollow = {
   handler: function (request, reply) {
-    //need to figure out how to check if element is in array.
     let sourceId = request.auth.credentials.loggedInUser;
     let targetId = request.payload.id;
-    let list = [];
-    if (sourceId !== targetId) {
-      User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
-        User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+    User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+      User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
 
-          sourceUser.following.pop(targetId);
-          sourceUser.save();
+        sourceUser.following.pop(targetId);
+        sourceUser.save();
 
-          targetUser.followedBy.pop(sourceId);
-          targetUser.save();
+        targetUser.followedBy.pop(sourceId);
+        targetUser.save();
 
-          return targetUser, sourceUser;
-        });
+        return targetUser, sourceUser;
       });
-    }
+    });
 
     reply.redirect('/tweetlist');
   },

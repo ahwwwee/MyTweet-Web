@@ -123,11 +123,33 @@ exports.follow = {
               targetUser.save();
             }
           });
-
-          return targetUser, sourceUser;
+          reply(targetUser, sourceUser);
         });
       });
     }
+  },
+};
+
+exports.unfollow = {
+  auth: {
+    strategy: 'jwt',
+  },
+
+  handler: function (request, reply) {
+    let sourceId = request.auth.credentials.loggedInUser;
+    let targetId = request.payload.id;
+    User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+      User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+
+        sourceUser.following.pop(targetId);
+        sourceUser.save();
+
+        targetUser.followedBy.pop(sourceId);
+        targetUser.save();
+
+        reply(targetUser, sourceUser);
+      });
+    });
   },
 };
 

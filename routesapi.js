@@ -17,6 +17,7 @@ module.exports = [
     { method: 'DELETE', path: '/api/users', config: UsersApi.deleteAll },
     { method: 'DELETE', path: '/api/users/{id}', config: UsersApi.deleteOne },
     { method: 'POST', path: '/api/users/{id}/follow', config: UsersApi.follow },
+    { method: 'POST', path: '/api/users/{id}/unfollow', config: UsersApi.unfollow },
     { method: 'GET', path: '/api/users/{id}/following', config: UsersApi.getFollowingTweets },
     { method: 'POST', path: '/api/users/authenticate', config: UsersApi.authenticate },
 
