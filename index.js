@@ -16,6 +16,7 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
     throw err;
   }
 
+
   server.views({
     engines: {
       hbs: require('handlebars'),

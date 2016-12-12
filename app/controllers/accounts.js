@@ -264,4 +264,4 @@ exports.findAllUsers = {
       reply(Boom.badImplementation('error retrieving Users'));
     });
   },
-}
+};

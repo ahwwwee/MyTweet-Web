@@ -108,18 +108,6 @@ exports.adminsignup = {
   },
 };
 
-exports.followersTweetlist = {
-  handler: function (request, reply) {
-    let data = request.payload;
-    let bool = new Boolean(true);
-    let myTweets = [];
-    var user = request.auth.credentials.loggedInUser;
-    User.find({}).then(allUsers => {
-
-    });
-  },
-};
-
 /*method to render the tweetlist, global timeline*/
 exports.tweetlist = {
   handler: function (request, reply) {
