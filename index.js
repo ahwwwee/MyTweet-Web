@@ -10,7 +10,7 @@ server.connection({ port: process.env.PORT || 4000 });
 require('./app/models/db');
 
 server.register([require('inert'), require('vision'), require('hapi-auth-cookie'),
-  require('hapi-auth-jwt2'),], err => {
+  require('hapi-auth-jwt2'), require('disinfect')], err => {
 
   if (err) {
     throw err;

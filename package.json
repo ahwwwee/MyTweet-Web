@@ -12,6 +12,7 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "boom": "^4.2.0",
+    "disinfect": "^0.2.1",
     "handlebars": "^4.0.5",
     "hapi": "^15.1.1",
     "hapi-auth-cookie": "^6.1.1",
