@@ -192,7 +192,7 @@ exports.edit = {
       if (data.lastName !== '') {
         edit.lastName = data.lastName;
       }else {
-        edit.lastName = edit.email;
+        edit.lastName = edit.lastName;
       }
 
       if (data.email !== '') {

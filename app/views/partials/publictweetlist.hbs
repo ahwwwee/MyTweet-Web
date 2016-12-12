@@ -9,7 +9,7 @@
             <i class="dropdown icon"></i>
             <div class="menu">
               {{#each users}}
-                <div class="item" data-value={{_id}}>{{email}}</div>
+                <div class="item" data-value={{_id}}>{{firstName}} {{lastName}}</div>
               {{/each}}
             </div>
           </div>
@@ -39,7 +39,7 @@
       <img class="ui avatar image" src="/getPublicPicture/{{{tweeter._id}}}" altSrc="images/placement.jpg"
            onerror="this.src = $(this).attr('altSrc')">
       <form style="display:inline" action="/profile" method="POST">
-        <input type="hidden" name="id" value={{tweeter._id}}>
+        <input type="hidden" name="id" readonly="true" value={{tweeter._id}}>
         <button class="ui secondary basic button">
           {{tweeter.firstName}} {{tweeter.lastName}}
         </button>
