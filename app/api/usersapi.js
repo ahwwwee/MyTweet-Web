@@ -133,11 +133,8 @@ exports.unfollow = {
       User.findOne({ _id: targetId }).then(targetUser => {
 
         sourceUser.following.pop(targetId);
-        sourceUser.save();
-
         targetUser.followedBy.pop(sourceId);
         targetUser.save();
-
         sourceUser.save().then(User => {
           reply(User).code(201);
         });
