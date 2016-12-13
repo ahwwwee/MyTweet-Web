@@ -110,18 +110,10 @@ exports.follow = {
     let targetId = request.payload.target;
     User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
       User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
-        User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
-          if (source.length == 0) {
-            sourceUser.following.push(targetId);
-          }
-        });
-        User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
-          if (target.length == 0) {
-            targetUser.followedBy.push(sourceId);
-            targetUser.save();
-          }
-        });
-        sourceUser.save().then(User =>{
+        sourceUser.following.push(targetId);
+        targetUser.followedBy.push(sourceId);
+        targetUser.save();
+        sourceUser.save().then(User => {
           reply(User);
         });
       });
@@ -146,7 +138,7 @@ exports.unfollow = {
         targetUser.followedBy.pop(sourceId);
         targetUser.save();
 
-        sourceUser.save().then(User =>{
+        sourceUser.save().then(User => {
           reply(User);
         });
       });
