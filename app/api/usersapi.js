@@ -114,7 +114,7 @@ exports.follow = {
         targetUser.followedBy.push(sourceId);
         targetUser.save();
         sourceUser.save().then(User => {
-          reply(User);
+          reply(User).code(201);
         });
       });
     });
@@ -139,7 +139,7 @@ exports.unfollow = {
         targetUser.save();
 
         sourceUser.save().then(User => {
-          reply(User);
+          reply(User).code(201);
         });
       });
     });
