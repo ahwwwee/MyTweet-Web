@@ -123,7 +123,7 @@ exports.follow = {
               targetUser.save();
             }
           });
-          reply(targetUser, sourceUser);
+          reply(sourceUser);
         });
       });
     }
@@ -147,7 +147,7 @@ exports.unfollow = {
         targetUser.followedBy.pop(sourceId);
         targetUser.save();
 
-        reply(targetUser, sourceUser);
+        reply(sourceUser);
       });
     });
   },
