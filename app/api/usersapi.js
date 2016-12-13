@@ -41,9 +41,9 @@ exports.createUser = {
   auth: false,
 
   handler: function (request, reply) {
-      let user = new User(request.payload);
-      user.password = Bcrypt.hashSync(user.password);
-      user.save().then(user => {
+    let user = new User(request.payload);
+    user.password = Bcrypt.hashSync(user.password);
+    user.save().then(user => {
       reply(user).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating User'));
@@ -108,25 +108,24 @@ exports.follow = {
   handler: function (request, reply) {
     let sourceId = request.params.id;
     let targetId = request.payload.target;
-    if (sourceId !== targetId) {
-      User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
-        User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
-          User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
-            if (source.length == 0) {
-              sourceUser.following.push(targetId);
-              sourceUser.save();
-            }
-          });
-          User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
-            if (target.length == 0) {
-              targetUser.followedBy.push(sourceId);
-              targetUser.save();
-            }
-          });
-          reply(sourceUser);
+    User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
+      User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+        User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
+          if (source.length == 0) {
+            sourceUser.following.push(targetId);
+          }
+        });
+        User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
+          if (target.length == 0) {
+            targetUser.followedBy.push(sourceId);
+            targetUser.save();
+          }
+        });
+        sourceUser.save().then(User =>{
+          reply(User);
         });
       });
-    }
+    });
   },
 };
 
@@ -147,7 +146,9 @@ exports.unfollow = {
         targetUser.followedBy.pop(sourceId);
         targetUser.save();
 
-        reply(sourceUser);
+        sourceUser.save().then(User =>{
+          reply(User);
+        });
       });
     });
   },
