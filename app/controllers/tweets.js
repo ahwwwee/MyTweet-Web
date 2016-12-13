@@ -173,7 +173,7 @@ exports.publicProfile = {
   handler: function (request, reply) {
     var id = request.auth.credentials.loggedInUser;
     let userTweets = [];
-    let bool = new Boolean(false);
+    let bool;
     let friend;
     let followers = [];
     User.findOne({ _id: request.payload.id }).populate('followedBy').then(tweeter => {
@@ -193,6 +193,10 @@ exports.publicProfile = {
           }
         }
 
+        if(tweeter._id.equals(id)){
+          bool = new Boolean(true);
+        }
+
         if (followedBy.length != 0) {
           User.find({ _id: { $in: followedBy } }).then(users => {
             followers = users;
@@ -203,6 +207,7 @@ exports.publicProfile = {
               tweeter: tweeter,
               follower: followers,
               friend: friend,
+              bool: bool,
             });
           });
         } else {
@@ -212,6 +217,7 @@ exports.publicProfile = {
             tweeter: tweeter,
             follower: followers,
             friend: friend,
+            bool: bool,
           });
         }
       });

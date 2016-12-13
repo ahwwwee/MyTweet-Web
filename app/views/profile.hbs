@@ -8,16 +8,20 @@
         </div>
         <div class="content">
           <h2 class="header" style="float: left">{{tweeter.firstName}} {{tweeter.lastName}}</h2>
-          {{#if friend}}
-            <form style="display: inline;" action="/unfollow" method="POST">
-              <input type="hidden" name="id" value={{tweeter._id}}>
-              <button class="ui small purple submit button" style="float: right">Unfollow</button>
-            </form>
+          {{#if bool}}
+              <a style="float: right" href="/tweeter">Tweet</a>
           {{else}}
-            <form style="display: inline;" action="/follow" method="POST">
-              <input type="hidden" name="id" value={{tweeter._id}}>
-              <button class="ui small purple submit button" style="float: right">Follow</button>
-            </form>
+            {{#if friend}}
+              <form style="display: inline;" action="/unfollow" method="POST">
+                <input type="hidden" name="id" value={{tweeter._id}}>
+                <button class="ui small purple submit button" style="float: right">Unfollow</button>
+              </form>
+            {{else}}
+              <form style="display: inline;" action="/follow" method="POST">
+                <input type="hidden" name="id" value={{tweeter._id}}>
+                <button class="ui small purple submit button" style="float: right">Follow</button>
+              </form>
+            {{/if}}
           {{/if}}
         </div>
       </div>
