@@ -108,8 +108,8 @@ exports.follow = {
   handler: function (request, reply) {
     let sourceId = request.params.id;
     let targetId = request.payload.target;
-    User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
-      User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+    User.findOne({ _id: sourceId }).then(sourceUser => {
+      User.findOne({ _id: targetId }).then(targetUser => {
         sourceUser.following.push(targetId);
         targetUser.followedBy.push(sourceId);
         targetUser.save();
@@ -129,8 +129,8 @@ exports.unfollow = {
   handler: function (request, reply) {
     let sourceId = request.auth.credentials.loggedInUser;
     let targetId = request.payload.id;
-    User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
-      User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
+    User.findOne({ _id: sourceId }).then(sourceUser => {
+      User.findOne({ _id: targetId }).then(targetUser => {
 
         sourceUser.following.pop(targetId);
         sourceUser.save();

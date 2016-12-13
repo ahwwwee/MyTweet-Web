@@ -402,24 +402,15 @@ exports.follow = {
   handler: function (request, reply) {
     let sourceId = request.auth.credentials.loggedInUser;
     let targetId = request.payload.id;
-    let list = [];
     if (sourceId !== targetId) {
       User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
         User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
-          User.find({ _id: sourceId, following: [{ _id: targetId }] }).then(source => {
-            if (source.length == 0) {
-              sourceUser.following.push(targetId);
-              sourceUser.save();
-            }
+          sourceUser.following.push(targetId);
+          targetUser.followedBy.push(sourceId);
+          targetUser.save();
+          sourceUser.save().then(User => {
+            return User;
           });
-          User.find({ _id: targetId, followedBy: [{ _id: sourceId }] }).then(target => {
-            if (target.length == 0) {
-              targetUser.followedBy.push(sourceId);
-              targetUser.save();
-            }
-          });
-
-          return targetUser, sourceUser;
         });
       });
     }
