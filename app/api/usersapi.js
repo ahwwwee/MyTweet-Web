@@ -107,7 +107,7 @@ exports.follow = {
 
   handler: function (request, reply) {
     let sourceId = request.params.id;
-    let targetId = request.payload.target;
+    let targetId = request.payload;
     User.findOne({ _id: sourceId }).then(sourceUser => {
       User.findOne({ _id: targetId }).then(targetUser => {
         sourceUser.following.push(targetId);
@@ -127,8 +127,8 @@ exports.unfollow = {
   },
 
   handler: function (request, reply) {
-    let sourceId = request.auth.credentials.loggedInUser;
-    let targetId = request.payload.id;
+    let sourceId = request.params.id;
+    let targetId = request.payload;
     User.findOne({ _id: sourceId }).then(sourceUser => {
       User.findOne({ _id: targetId }).then(targetUser => {
 
