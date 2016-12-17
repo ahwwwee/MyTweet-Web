@@ -11,7 +11,7 @@ exports.tweeter = {
     let followers = [];
     let followings = [];
     var id = request.auth.credentials.loggedInUser;
-    User.findOne({ _id: id }).populate('following').then(tweeter => {
+    User.findOne({ _id: id }).populate('following').populate('followedBy').then(tweeter => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         let myTweets = [];
         for (let i = 0; i < allTweets.length; i++) {
@@ -21,30 +21,15 @@ exports.tweeter = {
         }
 
         myTweets.sort({ datefield: -1 });
-        let following = [];
-        for (let i = 0; i < tweeter.following.length; i++) {
-          following.push(tweeter.following[i]._id);
-        }
+        myTweets.reverse();
 
-        if (following.length != 0) {
-          User.find({ _id: { $in: following } }).then(users => {
-            followings = users;
-          }).then(function (err) {
-            reply.view('tweeter', {
-              title: 'Tweet Tweet',
-              tweets: myTweets,
-              tweeterer: tweeter,
-              following: followings,
-            });
-          });
-        } else {
-          reply.view('tweeter', {
-            title: 'Tweet Tweet',
-            tweets: myTweets,
-            tweeterer: tweeter,
-            following: followings,
-          });
-        }
+        reply.view('tweeter', {
+          title: 'Tweet Tweet',
+          tweets: myTweets,
+          tweeterer: tweeter,
+          following: tweeter.following,
+          followedBy: tweeter.followedBy,
+        });
       });
     });
   },
@@ -175,9 +160,15 @@ exports.publicProfile = {
     let userTweets = [];
     let bool;
     let friend;
-    let followers = [];
-    let followees = [];
     User.findOne({ _id: request.payload.id }).populate('followedBy').populate('following').then(tweeter => {
+      if (tweeter._id.equals(id)) {
+        bool = new Boolean(true);
+      }
+      for(let i = 0; i < tweeter.followedBy.length; i++) {
+        if (tweeter.followedBy[i]._id.equals(id)) {
+          friend = new Boolean(true);
+        }
+      }
       Tweet.find({}).populate('tweeter').then(allTweets => {
         for (let i = 0; i < allTweets.length; i++) {
           if (allTweets[i].tweeter._id.equals(tweeter._id)) {
@@ -186,42 +177,23 @@ exports.publicProfile = {
         }
 
         userTweets.sort({ datefield: -1 });
-        let followedBy = [];
-        for (let i = 0; i < tweeter.followedBy.length; i++) {
-          followedBy.push(tweeter.followedBy[i]._id);
-          if (tweeter.followedBy[i]._id == id) {
-            friend = new Boolean(true);
-          }
-        }
+        userTweets.reverse();
 
-        let following = [];
-        for (let i = 0; i < tweeter.following.length; i++) {
-          following.push(tweeter.following[i]._id);
-        }
-
-        if (tweeter._id.equals(id)) {
-          bool = new Boolean(true);
-        }
-
-        User.find({ _id: { $in: followedBy } }).then(users => {
-          followers = users;
-        }).then(User.find({ _id: { $in: following}}).then(these => {
-         followees = these;
-         })).then(function (err) {
-          reply.view('profile', {
-            title: 'Tweet Tweet',
-            tweets: userTweets,
-            tweeter: tweeter,
-            follower: followers,
-            following: followees,
-            friend: friend,
-            bool: bool,
-          });
+      }).then(function (err) {
+        reply.view('profile', {
+          title: 'Tweet Tweet',
+          tweets: userTweets,
+          tweeter: tweeter,
+          follower: tweeter.followedBy,
+          following: tweeter.following,
+          friend: friend,
+          bool: bool,
         });
-      });
+      })
     });
   },
 };
+
 
 /*method to render the editprofile page*/
 exports.editprofile = {
