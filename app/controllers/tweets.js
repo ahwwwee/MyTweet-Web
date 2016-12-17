@@ -176,7 +176,8 @@ exports.publicProfile = {
     let bool;
     let friend;
     let followers = [];
-    User.findOne({ _id: request.payload.id }).populate('followedBy').then(tweeter => {
+    let followees = [];
+    User.findOne({ _id: request.payload.id }).populate('followedBy').populate('following').then(tweeter => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         for (let i = 0; i < allTweets.length; i++) {
           if (allTweets[i].tweeter._id.equals(tweeter._id)) {
@@ -193,33 +194,30 @@ exports.publicProfile = {
           }
         }
 
-        if(tweeter._id.equals(id)){
+        let following = [];
+        for (let i = 0; i < tweeter.following.length; i++) {
+          following.push(tweeter.following[i]._id);
+        }
+
+        if (tweeter._id.equals(id)) {
           bool = new Boolean(true);
         }
 
-        if (followedBy.length != 0) {
-          User.find({ _id: { $in: followedBy } }).then(users => {
-            followers = users;
-          }).then(function (err) {
-            reply.view('profile', {
-              title: 'Tweet Tweet',
-              tweets: userTweets,
-              tweeter: tweeter,
-              follower: followers,
-              friend: friend,
-              bool: bool,
-            });
-          });
-        } else {
+        User.find({ _id: { $in: followedBy } }).then(users => {
+          followers = users;
+        }).then(User.find({ _id: { $in: following}}).then(these => {
+         followees = these;
+         })).then(function (err) {
           reply.view('profile', {
             title: 'Tweet Tweet',
             tweets: userTweets,
             tweeter: tweeter,
             follower: followers,
+            following: followees,
             friend: friend,
             bool: bool,
           });
-        }
+        });
       });
     });
   },

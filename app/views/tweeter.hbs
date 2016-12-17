@@ -37,7 +37,9 @@
             <input disabled value="140" id="counter">
           </div>
           <div class="field">
-            <textarea id="message" placeholder="Insert Tweet here" name="content" maxlength="140" onkeydown="textCounter(this, 'counter', 140);"></textarea>
+            <textarea id="message" placeholder="Insert Tweet here" name="content" maxlength="140"
+                      onkeyup="textCounter(this, 'counter', 140);" onkeydown="textCounter(this, 'counter', 140);">
+            </textarea>
           </div>
           <div id="File button">
             <div style="position:absolute;">
