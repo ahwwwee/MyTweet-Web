@@ -44,7 +44,8 @@ exports.create = {
   handler: function (request, reply) {
     const data = request.payload.picture;
     let tweet = new Tweet(request.payload);
-    tweet.tweeter = request.params.id;
+    User.findOne({ _id:  request.params.id}).then(user => {
+    tweet.tweeter = user;
     console.log('before: ' + request.payload.picture + ' end');
     if (request.payload.picture) {
       tweet.picture.data = data;
@@ -60,6 +61,7 @@ exports.create = {
         console.log(newTweet);
         reply(newTweet).code(201);
       }
+    })
 
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet' + err));
