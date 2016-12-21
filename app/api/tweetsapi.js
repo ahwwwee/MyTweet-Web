@@ -64,7 +64,7 @@ exports.create = {
         console.log(newTweet);
         reply(newTweet).code(201);
       }).catch(err => {
-        reply(Boom.badImplementation('error creating Tweet'));
+        reply(Boom.badImplementation('error creating Tweet' + err));
       });
     });
   },
