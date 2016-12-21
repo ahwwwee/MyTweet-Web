@@ -46,7 +46,7 @@ exports.create = {
     const data = request.payload.picture;
     //console.log(data1);
     //const data = data1.values;
-    console.log(data);
+    console.log(data.nameValuePairs.data);
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
