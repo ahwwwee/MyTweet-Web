@@ -58,9 +58,9 @@ exports.create = {
         console.log('payload: ' + data + ' end');
         if (newTweet.picture != null) {
           newTweet.picture = tweet.picture.data;
+          console.log('after: ' + newTweet.picture + ' end');
         }
 
-        console.log('after: ' + newTweet.picture + ' end');
         console.log(newTweet);
         reply(newTweet).code(201);
       }).catch(err => {
