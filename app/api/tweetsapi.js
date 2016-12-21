@@ -2,6 +2,7 @@
 
 const Tweet = require('../models/tweet');
 const Boom = require('boom');
+const User = require('../models/user');
 
 exports.findAll = {
   auth: {
