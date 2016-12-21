@@ -55,7 +55,7 @@ exports.create = {
 
       Tweet.find({ _id: tweet2._id }).populate('tweeter').then(newTweet => {
         if (tweet.picture != null) {
-          newTweet.picture = tweet.picture.data;
+          newTweet.picture = data;
           console.log('after: ' + newTweet.picture + ' end');
           reply(newTweet).code(201);
         } else {
