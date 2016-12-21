@@ -44,6 +44,7 @@ exports.create = {
   handler: function (request, reply) {
     let tweet = new Tweet(request.payload);
     tweet.tweeter = request.params.id;
+    console.log('before: ' request.payload.picture);
     if (request.payload.picture) {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
@@ -55,6 +56,7 @@ exports.create = {
       if (tweet.picture != null) {
         newTweet.picture = tweet.picture.data;
       }
+      console.log('after: ' request.payload.picture);
       console.log(newTweet)
       reply(newTweet).code(201);
     }).catch(err => {
