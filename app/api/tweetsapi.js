@@ -52,6 +52,7 @@ exports.create = {
     }
 
     tweet.save().then(tweet2 => {
+      console.log(tweet2._id);
 
       Tweet.find({ _id: tweet2._id }).populate('tweeter').populate('picture').then(newTweet => {
         console.log('payload: ' + data + ' end');
