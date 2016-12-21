@@ -43,9 +43,9 @@ exports.create = {
   },
 
   handler: function (request, reply) {
-    const data = request.payload.picture;
+    const data = Json.parse(request.payload.picture);
     let tweet = new Tweet(request.payload);
-    User.findOne({ _id:  request.params.id}).then(user => {
+    User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
       console.log('before: ' + request.payload.picture + ' end');
       if (data) {
