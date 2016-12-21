@@ -45,15 +45,12 @@ exports.create = {
     let tweet = new Tweet(request.payload);
     tweet.tweeter = request.params.id;
     if (request.payload.picture) {
-      tweet.picture.data = request.payload.picture;
+      tweet.picture.data = request.payload.photo;
       tweet.picture.contentType = String;
     }
 
     tweet.save().then(newTweet => {
-      console.log('before : ' + newTweet.picture);
-
       newTweet.picture = tweet.picture.data;
-      console.log('after : ' + newTweet.picture);
       reply(newTweet).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
