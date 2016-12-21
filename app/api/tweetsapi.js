@@ -51,9 +51,9 @@ exports.create = {
       tweet.picture.contentType = String;
     }
 
-    tweet.save();
+    tweet.save().then(tweet2 => {
 
-    Tweet.find({ _id: tweet._id }).populate('tweeter').populate('picture').then(newTweet => {
+    Tweet.find({ _id: tweet2._id }).populate('tweeter').populate('picture').then(newTweet => {
       console.log('payload: ' + data + ' end')
       /*if (tweet.picture != null) {
         newTweet.picture = null;
@@ -65,6 +65,7 @@ exports.create = {
       reply(newTweet).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
+    });
     });
   },
 };
