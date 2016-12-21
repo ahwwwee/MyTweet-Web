@@ -14,9 +14,8 @@ suite('Tweet API tests', function () {
   const tweetService = new TweetService('http://localhost:4000');
 
   beforeEach(function () {
-    tweetService.createUser(newUser);
-    tweetService.login(newUser);
-    tweetService.deleteAllTweets();
+    //tweetService.createUser(users[0]);
+    tweetService.login(users[0]);
   });
 
   afterEach(function () {
@@ -25,7 +24,7 @@ suite('Tweet API tests', function () {
   });
 
   test('create a tweet', function () {
-    const returnedUser = tweetService.createUser(newUser);
+    const returnedUser = tweetService.createUser(users[0]);
     tweetService.makeTweet(returnedUser._id, tweets[0]);
     const returnedTweets = tweetService.getTweets(returnedUser._id);
     assert.equal(returnedTweets.length, 1);

@@ -50,9 +50,8 @@ exports.create = {
     }
 
     tweet.save().then(newTweet => {
-      return Tweet.findOne(newTweet).populate('picture').populate('tweeter');
-    }).then(newNew => {
-      reply(newNew).code(201);
+      newTweet.picture = null;
+      reply(newTweet).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
     });
