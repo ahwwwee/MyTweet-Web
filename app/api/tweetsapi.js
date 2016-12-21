@@ -45,23 +45,25 @@ exports.create = {
     const data = request.payload.picture;
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id}).then(user => {
-    tweet.tweeter = user;
-    console.log('before: ' + request.payload.picture + ' end');
-    if (request.payload.picture) {
-      tweet.picture.data = data;
-      tweet.picture.contentType = String;
-    }
-
-    tweet.save().then(newTweet => {
-      if (tweet.picture != null) {
-        newTweet.picture = data;
-        console.log('after: ' + newTweet + ' end');
-        reply(newTweet).code(201);
-      } else {
-        console.log(newTweet);
-        reply(newTweet).code(201);
+      tweet.tweeter = user;
+      console.log('before: ' + request.payload.picture + ' end');
+      if (data) {
+        console.log('in the if!!!!')
+        tweet.picture.data = data;
+        tweet.picture.contentType = String;
+        console.log('picture ' + tweet.picture);
       }
-    })
+
+      tweet.save().then(newTweet => {
+        if (tweet.picture != undefined) {
+          newTweet.picture = data;
+          console.log('after: ' + newTweet + ' end');
+          reply(newTweet).code(201);
+        } else {
+          console.log(newTweet);
+          reply(newTweet).code(201);
+        }
+      })
 
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet' + err));
