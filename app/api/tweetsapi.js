@@ -57,7 +57,7 @@ exports.create = {
         newTweet.picture = tweet.picture.data;
       }
 
-      console.log('after: ' + request.payload.picture);
+      console.log('after: ' + newTweet.picture);
       console.log(newTweet)
       reply(newTweet).code(201);
     }).catch(err => {
