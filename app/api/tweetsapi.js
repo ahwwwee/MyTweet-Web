@@ -50,7 +50,10 @@ exports.create = {
     }
 
     tweet.save().then(newTweet => {
-      newTweet.picture = null;
+      console.log('before : ' + newTweet.picture);
+
+      newTweet.picture = tweet.picture.data;
+      console.log('after : ' + newTweet.picture);
       reply(newTweet).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
