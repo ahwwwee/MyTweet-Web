@@ -56,7 +56,7 @@ exports.create = {
       }
 
       tweet.save().then(newTweet => {
-        if (tweet.picture != undefined) {
+        if (data) {
           newTweet.picture = data;
           console.log('after: ' + newTweet + ' end');
           reply(newTweet).code(201);
