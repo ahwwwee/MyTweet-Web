@@ -43,9 +43,9 @@ exports.create = {
   },
 
   handler: function (request, reply) {
-    const data1 = request.payload.picture;
-    console.log(data1);
-    const data = data1.values;
+    const data = request.payload.picture;
+    //console.log(data1);
+    //const data = data1.values;
     console.log(data);
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
@@ -57,7 +57,7 @@ exports.create = {
 
       tweet.save().then(newTweet => {
         if (data) {
-          newTweet.picture = data;
+          //newTweet.picture = data;
           reply(newTweet).code(201);
         } else {
           console.log(newTweet);
