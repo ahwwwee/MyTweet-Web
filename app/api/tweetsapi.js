@@ -44,7 +44,7 @@ exports.create = {
   handler: function (request, reply) {
     let tweet = new Tweet(request.payload);
     tweet.tweeter = request.params.id;
-    console.log('before: ' + request.payload.picture);
+    console.log('before: ' + request.payload.picture + ' end');
     if (request.payload.picture) {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
@@ -53,12 +53,12 @@ exports.create = {
     tweet.save();
 
     Tweet.find({ _id: tweet.id }).populate('tweeter').then(newTweet => {
-      console.log('payload: ' + request.payload.picture)
+      console.log('payload: ' + request.payload.picture + ' end')
       if (tweet.picture != null) {
         newTweet.picture = request.payload.picture;
       }
 
-      console.log('after: ' + newTweet.picture);
+      console.log('after: ' + newTweet.picture + ' end');
       console.log(newTweet)
       reply(newTweet).code(201);
     }).catch(err => {
