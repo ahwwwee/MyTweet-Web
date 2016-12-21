@@ -25,12 +25,12 @@ exports.findOne = {
   handler: function (request, reply) {
     Tweet.findOne({ _id: request.params.id }).populate('picture').populate('tweeter')
         .then(tweet => {
-      if (tweet != null) {
-        reply(tweet);
-      }
+          if (tweet != null) {
+            reply(tweet);
+          }
 
-      reply(Boom.notFound('id not found'));
-    }).catch(err => {
+          reply(Boom.notFound('id not found'));
+        }).catch(err => {
       reply(Boom.badImplementation('Could not retrieve Tweet'));
     });
   },
@@ -48,17 +48,18 @@ exports.create = {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
     }
+
+    tweet.save();
+
     Tweet.find({ _id: tweet.id }).populate('tweeter').then(Tweet => {
-      Tweet.save().then(newTweet => {
-        if (tweet.picture != null) {
-          newTweet.picture = tweet.picture.data;
-        }
-        console.log(newTweet)
-        reply(newTweet).code(201);
-      }).catch(err => {
-        reply(Boom.badImplementation('error creating Tweet'));
-      });
-    })
+      if (tweet.picture != null) {
+        newTweet.picture = tweet.picture.data;
+      }
+      console.log(newTweet)
+      reply(newTweet).code(201);
+    }).catch(err => {
+      reply(Boom.badImplementation('error creating Tweet'));
+    });
   },
 };
 
@@ -127,9 +128,9 @@ exports.update = {
   handler: function (request, reply) {
     const data = request.payload;
     Tweet.findOne({ _id: request.params.id }).then(tweet => {
-        tweet.content = data.content;
-        tweet.save();
-      }).then(tweet2 => {
+      tweet.content = data.content;
+      tweet.save();
+    }).then(tweet2 => {
       reply(tweet2);
     });
   },
