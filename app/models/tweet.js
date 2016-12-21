@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const tweetSchema = mongoose.Schema({
   content: String,
   date: String,
+  path: String,
   picture: { data: Buffer, contentType: String },
   date: { type: Date, default: Date() },
   tweeter: {
