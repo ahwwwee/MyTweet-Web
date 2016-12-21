@@ -43,7 +43,7 @@ exports.create = {
   },
 
   handler: function (request, reply) {
-    const data = request.payload.picture;
+    const data = request.payload.data;
     //console.log(data1);
     //const data = data1.values;
     console.log(data);
