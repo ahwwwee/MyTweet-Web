@@ -49,8 +49,11 @@ exports.create = {
       tweet.picture.contentType = String;
     }
 
-    tweet.save().then(newTweet => {
-      newTweet.picture = tweet.picture.data;
+    tweet.save().populate('tweeter').then(newTweet => {
+      if(tweet.picture != null) {
+        newTweet.picture = tweet.picture.data;
+      }
+      console.log(newTweet)
       reply(newTweet).code(201);
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
