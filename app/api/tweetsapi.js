@@ -53,19 +53,19 @@ exports.create = {
 
     tweet.save().then(tweet2 => {
 
-    Tweet.find({ _id: tweet2._id }).populate('tweeter').populate('picture').then(newTweet => {
-      console.log('payload: ' + data + ' end')
-      /*if (tweet.picture != null) {
-        newTweet.picture = null;
-        newTweet.picture = data;
-      }*/
+      Tweet.find({ _id: tweet2._id }).populate('tweeter').populate('picture').then(newTweet => {
+        console.log('payload: ' + data + ' end');
+        if (tweet.picture != null) {
+          newTweet.picture = null;
+          newTweet.picture = data;
+        }
 
-      console.log('after: ' + newTweet.picture + ' end');
-      console.log(newTweet)
-      reply(newTweet).code(201);
-    }).catch(err => {
-      reply(Boom.badImplementation('error creating Tweet'));
-    });
+        console.log('after: ' + newTweet.picture + ' end');
+        console.log(newTweet);
+        reply(newTweet).code(201);
+      }).catch(err => {
+        reply(Boom.badImplementation('error creating Tweet'));
+      });
     });
   },
 };
