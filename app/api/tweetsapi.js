@@ -48,16 +48,17 @@ exports.create = {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
     }
-
-    tweet.save().populate('tweeter').then(newTweet => {
-      if(tweet.picture != null) {
-        newTweet.picture = tweet.picture.data;
-      }
-      console.log(newTweet)
-      reply(newTweet).code(201);
-    }).catch(err => {
-      reply(Boom.badImplementation('error creating Tweet'));
-    });
+    Tweet.find({ _id: tweet.id }).populate('tweeter').then(Tweet => {
+      Tweet.save().then(newTweet => {
+        if (tweet.picture != null) {
+          newTweet.picture = tweet.picture.data;
+        }
+        console.log(newTweet)
+        reply(newTweet).code(201);
+      }).catch(err => {
+        reply(Boom.badImplementation('error creating Tweet'));
+      });
+    })
   },
 };
 
