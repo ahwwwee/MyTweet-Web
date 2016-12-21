@@ -44,23 +44,19 @@ exports.create = {
 
   handler: function (request, reply) {
     const data1 = request.payload.picture;
-    let data = []
-    data.push(data1.data);
+    const data = data1.data;
+    console.log(data);
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
-      console.log('before: ' + request.payload.picture + ' end');
       if (data) {
-        console.log('in the if!!!!')
         tweet.picture.data = data;
         tweet.picture.contentType = String;
-        console.log('picture ' + tweet.picture);
       }
 
       tweet.save().then(newTweet => {
         if (data) {
           newTweet.picture = data;
-          console.log('after: ' + newTweet + ' end');
           reply(newTweet).code(201);
         } else {
           console.log(newTweet);
