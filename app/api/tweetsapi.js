@@ -53,10 +53,11 @@ exports.create = {
 
     tweet.save();
 
-    Tweet.find({ _id: tweet.id }).populate('tweeter').then(newTweet => {
+    Tweet.find({ _id: tweet.id }).populate('tweeter').populate('picture').then(newTweet => {
       console.log('payload: ' + data + ' end')
-     /* if (tweet.picture != null) {
-        newTweet.picture = request.payload.picture;
+      /*if (tweet.picture != null) {
+        newTweet.picture = null;
+        newTweet.picture = data;
       }*/
 
       console.log('after: ' + newTweet.picture + ' end');
