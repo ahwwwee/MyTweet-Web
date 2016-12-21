@@ -44,8 +44,6 @@ exports.create = {
   handler: function (request, reply) {
     let tweet = new Tweet(request.payload);
     tweet.tweeter = request.params.id;
-    console.log('photoArray: ' + request.payload.photo)
-    console.log('pictureArray: ' + request.payload.picture)
     if (request.payload.picture) {
       tweet.picture.data = request.payload.picture;
       tweet.picture.contentType = String;
