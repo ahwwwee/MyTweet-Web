@@ -56,7 +56,7 @@ exports.create = {
       }
 
       tweet.save().then(newTweet => {
-        if (pic) {
+        if (pic1) {
           //newTweet.picture = data;
           reply(newTweet).code(201);
         } else {
