@@ -43,20 +43,20 @@ exports.create = {
   },
 
   handler: function (request, reply) {
-    const data = request.payload.picture;
+    const pic1 = request.payload.data;
     console.log(data);
-    const data = data1.nameValuePairs.data;
-    console.log(data1.nameValuePairs.data);
+    //const pic = pic1.nameValuePairs.image;
+    //console.log(pic1.nameValuePairs.image);
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
       if (data) {
-        tweet.picture.data = data;
+        tweet.picture.data = pic;
         tweet.picture.contentType = String;
       }
 
       tweet.save().then(newTweet => {
-        if (data) {
+        if (pic) {
           //newTweet.picture = data;
           reply(newTweet).code(201);
         } else {
