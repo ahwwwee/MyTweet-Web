@@ -11,6 +11,7 @@ exports.findAll = {
 
   handler: function (request, reply) {
     Tweet.find({}).populate('tweeter').then(tweets => {
+      tweets.reverse();
       reply(tweets);
     }).catch(err => {
       reply(Boom.badImplementation('Could not retrieve Tweets'));
