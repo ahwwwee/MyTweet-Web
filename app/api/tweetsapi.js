@@ -11,6 +11,7 @@ exports.findAll = {
 
   handler: function (request, reply) {
     Tweet.find({}).populate('tweeter').then(tweets => {
+      tweets.sort({ datefield: -1 });
       tweets.reverse();
       reply(tweets);
     }).catch(err => {
