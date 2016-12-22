@@ -51,7 +51,7 @@ exports.create = {
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
       if (data) {
-        tweet.picture.data = pic;
+        tweet.picture.data = pic1;
         tweet.picture.contentType = String;
       }
 
