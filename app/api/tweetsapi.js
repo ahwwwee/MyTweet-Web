@@ -44,7 +44,7 @@ exports.create = {
 
   handler: function (request, reply) {
     const pic1 = request.payload.data;
-    console.log(data);
+    console.log(pic1);
     //const pic = pic1.nameValuePairs.image;
     //console.log(pic1.nameValuePairs.image);
     let tweet = new Tweet(request.payload);
