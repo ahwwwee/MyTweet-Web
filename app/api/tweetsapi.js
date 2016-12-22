@@ -50,7 +50,7 @@ exports.create = {
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
-      if (data) {
+      if (pic1) {
         tweet.picture.data = pic1;
         tweet.picture.contentType = String;
       }
