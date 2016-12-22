@@ -43,30 +43,21 @@ exports.create = {
   },
 
   handler: function (request, reply) {
-    const pic1 = request.payload.data;
-    console.log(pic1);
-    //const pic = pic1.nameValuePairs.image;
-    //console.log(pic1.nameValuePairs.image);
+    const pic = request.payload.data;
+    console.log(pic);
     let tweet = new Tweet(request.payload);
     User.findOne({ _id:  request.params.id }).then(user => {
       tweet.tweeter = user;
-      if (pic1) {
-        tweet.picture.data = pic1;
+      if (pic) {
+        tweet.picture.data = pic;
         tweet.picture.contentType = String;
       }
 
       tweet.save().then(newTweet => {
-        if (pic1) {
-          //newTweet.picture = data;
-          reply(newTweet).code(201);
-        } else {
-          console.log(newTweet);
-          reply(newTweet).code(201);
-        }
+        reply(newTweet).code(201);
       })
-
     }).catch(err => {
-      reply(Boom.badImplementation('error creating Tweet' + err));
+      reply(Boom.badImplementation('error creating Tweet'));
     });
   },
 };
