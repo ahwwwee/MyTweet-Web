@@ -181,9 +181,11 @@ exports.aurAuthenticate = {
 
   handler: function (request, reply) {
     const user = request.payload;
-    console.log(user);
-    User.findOne({ _id: user.email }).then(foundUser => {
+    console.log(user.email);
+    User.findOne({ _email: user.email }).then(foundUser => {
+      console.log(foundUser);
       if (foundUser &&  Bcrypt.compareSync(user.password, foundUser.password)) {
+        console.log('in here')
         const token = utils.createToken(foundUser);
         reply({ success: true, token: token, user: foundUser }).code(201);
       } else {
