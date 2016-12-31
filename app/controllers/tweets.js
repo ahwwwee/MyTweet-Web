@@ -347,7 +347,7 @@ exports.deleteuser = {
             User.find({ _id: { $in: following } }).then(users => {
               for (let i = 0; i < users.length; i++) {
                 User.findOne({ _id: users[i]._id }).populate('followedBy').then(another => {
-                  another.followedBy.pop(user._id);
+                  another.followedBy.remove(user._id);
                   return another.save();
                 });
               }
@@ -358,7 +358,7 @@ exports.deleteuser = {
             User.find({ _id: { $in: followedBy } }).then(users => {
               for (let i = 0; i < users.length; i++) {
                 User.findOne({ _id: users[i]._id }).populate('following').then(another => {
-                  another.following.pop(user._id);
+                  another.following.remove(user._id);
                   return another.save();
                 });
               }
@@ -402,10 +402,10 @@ exports.unfollow = {
     User.findOne({ _id: sourceId }).populate('following').then(sourceUser => {
       User.findOne({ _id: targetId }).populate('followedBy').then(targetUser => {
 
-        sourceUser.following.pop(targetId);
+        sourceUser.following.remove(targetId);
         sourceUser.save();
 
-        targetUser.followedBy.pop(sourceId);
+        targetUser.followedBy.remove(sourceId);
         targetUser.save();
 
         return targetUser, sourceUser;

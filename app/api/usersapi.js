@@ -132,8 +132,8 @@ exports.unfollow = {
     User.findOne({ _id: sourceId }).then(sourceUser => {
       User.findOne({ _id: targetId }).then(targetUser => {
 
-        sourceUser.following.pop(targetId);
-        targetUser.followedBy.pop(sourceId);
+        sourceUser.following.remove(targetId);
+        targetUser.followedBy.remove(sourceId);
         targetUser.save();
         sourceUser.save().then(User => {
           reply(User).code(201);
@@ -163,6 +163,25 @@ exports.authenticate = {
   handler: function (request, reply) {
     const user = request.payload;
     User.findOne({ _id: user._id }).then(foundUser => {
+      if (foundUser &&  Bcrypt.compareSync(user.password, foundUser.password)) {
+        const token = utils.createToken(foundUser);
+        reply({ success: true, token: token, user: foundUser }).code(201);
+      } else {
+        reply({ success: false, message: 'Authentication failed. User not found.' }).code(201);
+      }
+    }).catch(err => {
+      reply(Boom.notFound('internal db failure'));
+    });
+  },
+
+};
+
+exports.aurAuthenticate = {
+  auth: false,
+
+  handler: function (request, reply) {
+    const user = request.payload;
+    User.findOne({ _id: user.email }).then(foundUser => {
       if (foundUser &&  Bcrypt.compareSync(user.password, foundUser.password)) {
         const token = utils.createToken(foundUser);
         reply({ success: true, token: token, user: foundUser }).code(201);
