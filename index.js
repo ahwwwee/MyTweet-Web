@@ -32,7 +32,7 @@ server.register([require('inert'), require('vision'), require('hapi-auth-cookie'
   server.auth.strategy('standard', 'cookie', {
     password: 'secretpasswordnotrevealedtoanyone',
     cookie: 'tweet-cookie',
-    isSecure: false,
+    isSecure: true,
     ttl: 24 * 60 * 60 * 1000,
     redirectTo: '/login',
   });
