@@ -85,16 +85,21 @@ exports.deleteSome = {
 
   handler: function (request, reply) {
     const data = request.payload.id;
+    console.log(data);
     if (data) {
       if (!Array.isArray(data)) {
         Tweet.findOne({ _id: data }).then(tweet => {
-          reply(Tweet.remove(tweet));
+          Tweet.remove(tweet);
+        }).then(Tweet => {
+          reply(Tweet).code(201);
         });
       } else {
         let tweetIDs = data.delete;
         for (let i = 0; i < tweetIDs.length; i++) {
           Tweet.findOne({ _id: tweetIDs[i] }).then(tweet => {
-            reply(Tweet.remove(tweet));
+            Tweet.remove(tweet);
+          }).then(Tweet => {
+            reply(Tweet).code(201);
           });
         }
       }
