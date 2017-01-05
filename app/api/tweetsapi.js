@@ -90,6 +90,7 @@ exports.deleteSome = {
       User.findOne({ _id: request.params.id }).then(user => {
         for (let i = 0; i < data.length; i++) {
           Tweet.findOne({ _id: data[i] }).then(tweet => {
+            console.log(tweet)
             Tweet.remove(tweet);
           })
         }
