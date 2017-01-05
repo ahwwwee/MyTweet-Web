@@ -94,10 +94,8 @@ exports.getFollowingTweets = {
       }
 
       Tweet.find({ tweeter: { $in: following } }).populate('tweeter').then(tweets => {
-        console.log('were into here anyway')
         for (let i of tweets) {
           if (i.picture.data != null) {
-            console.log('im in: ' + i.picture.data);
             i.buffer = String(i.picture.data.toString('base64'));
           }
         }
