@@ -84,7 +84,7 @@ exports.deleteSome = {
   },
 
   handler: function (request, reply) {
-    const data = request.params.id;
+    const data = request.payload.id;
     if (data) {
       if (!Array.isArray(data)) {
         Tweet.findOne({ _id: data }).then(tweet => {

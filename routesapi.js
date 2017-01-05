@@ -6,8 +6,8 @@ module.exports = [
     { method: 'GET', path: '/api/tweets', config: TweetsApi.findAll },
     { method: 'GET', path: '/api/tweets/{id}', config: TweetsApi.findOne },
     { method: 'POST', path: '/api/users/{id}/tweets', config: TweetsApi.create },
-    { method: 'DELETE', path: '/api/tweets/{id}', config: TweetsApi.deleteSome },
-    { method: 'DELETE', path: '/api/tweets', config: TweetsApi.deleteAll },
+    { method: 'DELETE', path: '/api/tweets', config: TweetsApi.deleteSome },
+    { method: 'DELETE', path: '/api/tweets/delAll', config: TweetsApi.deleteAll },
     { method: 'DELETE', path: '/api/users/{id}/tweets', config: TweetsApi.deleteUserTweets },
     { method: 'POST', path: '/api/update/{id}', config: TweetsApi.update },
 
