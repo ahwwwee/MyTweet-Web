@@ -11,6 +11,12 @@ exports.findAll = {
 
   handler: function (request, reply) {
     Tweet.find({}).populate('tweeter').then(tweets => {
+      for (let i of tweets) {
+        if (i.picture.buffer != null) {
+          i.buffer = String(i.picture.data.toString('base64'));
+        }
+      }
+
       tweets.sort({ datefield: -1 });
       tweets.reverse();
       reply(tweets);
@@ -57,7 +63,7 @@ exports.create = {
 
       tweet.save().then(newTweet => {
         reply(newTweet).code(201);
-      })
+      });
     }).catch(err => {
       reply(Boom.badImplementation('error creating Tweet'));
     });
@@ -89,11 +95,10 @@ exports.deleteSome = {
     if (data) {
       User.findOne({ _id: request.params.id }).then(user => {
         for (let i = 0; i < data.length; i++) {
-          Tweet.findOne({ _id: data[i] }).then(tweet => {
-            console.log(tweet)
-            Tweet.remove(tweet);
-          })
+          Tweet.remove({ _id: data[i] }).then(tweet => {
+          });
         }
+
         reply(user).code(201);
       });
     }

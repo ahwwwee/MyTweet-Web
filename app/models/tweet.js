@@ -5,6 +5,7 @@ const tweetSchema = mongoose.Schema({
   content: String,
   date: String,
   path: String,
+  buffer: String,
   picture: { data: Buffer, contentType: String },
   date: { type: Date, default: Date.now() },
   tweeter: {
