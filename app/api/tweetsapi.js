@@ -87,12 +87,14 @@ exports.deleteSome = {
     const data = request.payload;
     console.log(data);
     if (data) {
-      for (let i = 0; i < data.length; i++) {
-        Tweet.findOne({ _id: data[i] }).then(tweet => {
-          Tweet.remove(tweet);
-        })
-      }
-      reply('success').code(201);
+      User.findOne({ _id: request.params.id }).then(user => {
+        for (let i = 0; i < data.length; i++) {
+          Tweet.findOne({ _id: data[i] }).then(tweet => {
+            Tweet.remove(tweet);
+          })
+        }
+        reply(user).code(201);
+      });
     }
   },
 };
