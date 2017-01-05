@@ -92,7 +92,7 @@ exports.deleteSome = {
           Tweet.remove(tweet);
         })
       }
-      reply().code(201);
+      reply('success').code(201);
     }
   },
 };
