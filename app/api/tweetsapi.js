@@ -84,7 +84,7 @@ exports.deleteSome = {
   },
 
   handler: function (request, reply) {
-    const data = request.payload.id;
+    const data = request.payload;
     console.log(data);
     if (data) {
       if (!Array.isArray(data)) {
