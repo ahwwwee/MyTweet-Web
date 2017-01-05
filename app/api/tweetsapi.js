@@ -13,6 +13,7 @@ exports.findAll = {
     Tweet.find({}).populate('tweeter').then(tweets => {
       for (let i of tweets) {
         if (i.picture.buffer != null) {
+          console.log('im in: ' + i.picture.buffer);
           i.buffer = String(i.picture.data.toString('base64'));
         }
       }
