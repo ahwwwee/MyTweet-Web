@@ -246,6 +246,7 @@ exports.getPicture = {
 exports.deletetweets = {
   handler: function (request, reply) {
     const data = request.payload.id;
+    console.log(data)
     const user = request.auth.credentials.loggedInUser;
     if (data) {
       if (!Array.isArray(data)) {
