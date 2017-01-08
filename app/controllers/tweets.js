@@ -72,6 +72,7 @@ exports.admin = {
     User.find({}).then(allUsers => {
       Tweet.find({}).populate('tweeter').then(allTweets => {
         allTweets.sort({ datefield: -1 });
+        allTweets.reverse();
         reply.view('admin', {
           title: 'Admin Tweet Tweet',
           users: allUsers,
@@ -114,6 +115,7 @@ exports.tweetlist = {
                 myTweets = tweets;
               }).then(function (err) {
                 myTweets.sort({ datefield: -1 });
+                myTweets.reverse();
                 reply.view('tweetlist', {
                   title: 'Tweet Tweet Tweet...',
                   tweets: myTweets,
@@ -131,6 +133,7 @@ exports.tweetlist = {
               }
 
               myTweets.sort({ datefield: -1 });
+              myTweets.reverse();
             });
             reply.view('tweetlist', {
               title: 'Tweet Tweet Tweet...',
@@ -141,6 +144,7 @@ exports.tweetlist = {
           }
         } else {
           allTweets.sort({ datefield: -1 });
+          allTweets.reverse();
           reply.view('tweetlist', {
             title: 'Tweet Tweet Tweet...',
             tweets: allTweets,
