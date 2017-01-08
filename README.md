@@ -1,10 +1,10 @@
-# web myTweet, Node.js #
+#web myTweet, Node.js#
 
 
 ### What is this repository for? ###
 
-* This repository is for a web application mimicking twitter. 
-* there is an admin account and users can sign up and log into their own personal accounts.
+*This repository is for a web application mimicking twitter. 
+*There is an admin account and users can sign up and log into their own personal accounts.
 * users can tweet, with images. 
 * users can also follow other users and view their profile. 
 * the admin can delete tweets, and users. They can also view stats about the activity on the application.
