@@ -251,7 +251,7 @@ exports.deletetweets = {
     if (data) {
       if (!Array.isArray(data)) {
         Tweet.remove({ _id: data }).then(twee => {
-        });
+         });
       } else {
         let tweetIDs = data;
         for (let i = 0; i < tweetIDs.length; i++) {
