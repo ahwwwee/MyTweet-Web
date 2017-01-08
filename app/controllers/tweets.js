@@ -251,13 +251,11 @@ exports.deletetweets = {
     if (data) {
       if (!Array.isArray(data)) {
         Tweet.remove({ _id: data }).then(twee => {
-          console.log('not array: ' + twee)
         });
       } else {
         let tweetIDs = data;
         for (let i = 0; i < tweetIDs.length; i++) {
           Tweet.remove({ _id: tweetIDs[i] }).then(twee => {
-            console.log('array: ' + twee)
           });
         }
       }
