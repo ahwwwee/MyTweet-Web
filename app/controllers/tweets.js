@@ -250,15 +250,11 @@ exports.deletetweets = {
     const user = request.auth.credentials.loggedInUser;
     if (data) {
       if (!Array.isArray(data)) {
-        Tweet.findOne({ _id: data }).then(tweet => {
-          reply(Tweet.remove(tweet));
-        });
+        Tweet.remove({ _id: data });
       } else {
         let tweetIDs = data;
         for (let i = 0; i < tweetIDs.length; i++) {
-          Tweet.remove({ _id: tweetIDs[i] }).then(tweet => {
-            reply(tweet);
-          });
+          Tweet.remove({ _id: tweetIDs[i] });
         }
       }
     }
@@ -273,7 +269,7 @@ exports.deletetweets = {
 
       reply.redirect('/admin');
     }).catch(err => {
-      reply.redirect('/admin')
+      reply.redirect('/');
     });
   },
 };
