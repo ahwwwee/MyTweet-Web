@@ -271,6 +271,8 @@ exports.deletetweets = {
       }
 
       reply.redirect('/admin');
+    }).catch(err => {
+      reply.redirect('/admin')
     });
   },
 };
